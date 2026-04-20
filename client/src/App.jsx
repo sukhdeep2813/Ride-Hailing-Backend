@@ -1,12 +1,14 @@
 import "./App.css";
+import Landing from "./pages/Landing";
+import { Routes, Route } from "react-router-dom";
+import Login from "./pages/Login";
 
 function App() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-900">
-      <h1 className="text-4xl font-extrabold text-blue-400 drop-shadow-md">
-        MERN + Tailwind v4 is Ready!
-      </h1>
-    </div>
+    <Routes>
+      <Route path="/" element={<Landing />} />
+      <Route path="/login" element={<Login />} />
+    </Routes>
   );
 }
 
