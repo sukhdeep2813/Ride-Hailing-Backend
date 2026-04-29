@@ -9,11 +9,13 @@ passport.use(
     {
       clientID: process.env.VITE_GOOGLE_CLIENT_ID,
       clientSecret: process.env.VITE_GOOGLE_CLIENT_SECRET,
-      callbackURL: "/auth/google/callback",
+      callbackURL: "/api/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
-        const user = await User.findOne({ googleId: profile.id });
+        console.log("Google profile:", profile);
+      /*   const user = await User.findOne({ googleId: profile.id });
+
 
         if (!user) {
           const newUser = await User.create({
@@ -23,8 +25,8 @@ passport.use(
             avatar: profile.photos[0].value,
           });
         }
-
-        return done(null, user);
+ */
+        return done(null, profile);
       } catch (error) {
         return done(error, null);
       }
