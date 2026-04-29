@@ -7,8 +7,8 @@ dotenv.config();
 passport.use(
   new GoogleStrategy(
     {
-      clientID: clientID.process.env.VITE_GOOGLE_CLIENT_ID,
-      clientSecret: clientSecret.process.env.VITE_GOOGLE_CLIENT_SECRET,
+      clientID: process.env.VITE_GOOGLE_CLIENT_ID,
+      clientSecret: process.env.VITE_GOOGLE_CLIENT_SECRET,
       callbackURL: "/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
@@ -33,7 +33,9 @@ passport.use(
 );
 
 //serilize and deserialize user
-passport.serializeUser((user, done) => done(null, user.id));
+passport.serializeUser((user, done) => done(null, user.id)); //saving userId to session
+
+//retrieving user from session using the userId
 passport.deserializeUser(async (id, done) => {
   const user = await User.findById(id);
   done(null, user);
