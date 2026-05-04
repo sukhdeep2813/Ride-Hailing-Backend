@@ -9,7 +9,7 @@ export const googleAuthCallback = [
   passport.authenticate("google", { failureRedirect: "/login" }),
   (req, res) => {
     // Successful authentication, redirect to the desired page
-    console.log("User authenticated successfully:", req.user);
+    res.redirect(`${process.env.CLIENT_URL}/dashboard`);
   },
 ];
 
