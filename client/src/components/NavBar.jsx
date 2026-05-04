@@ -12,7 +12,7 @@ const NavBar = () => {
           Technology
         </a>
       </div>
-      <div className="space-x-4 bg-white/[0.03] border border-white/[0.08] backdrop-blur-sm  transition p-1 rounded-lg ">
+      <div className="space-x-4 bg-white/3 border border-white/8 backdrop-blur-sm  transition p-1 rounded-lg ">
         <button
           className="text-sm font-semibold text-gray-300 hover:text-white transition cursor-pointer p-0.5 px-2.5"
           onClick={() => {

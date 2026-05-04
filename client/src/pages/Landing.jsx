@@ -2,6 +2,7 @@ import React from "react";
 import NavBar from "../components/NavBar";
 import HeroSection from "../components/HeroSection";
 import Glassmorphism from "../components/Glassmorphism";
+import Footer from "../components/Footer";
 
 const Landing = () => {
   return (

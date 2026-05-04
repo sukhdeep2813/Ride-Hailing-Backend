@@ -53,11 +53,11 @@ const Login = () => {
 
             {/* Divider */}
             <div className="relative py-4 flex items-center">
-              <div className="flex-grow border-t border-white/5"></div>
+              <div className="grow border-t border-white/5"></div>
               <span className="mx-4 text-gray-600 text-[10px] uppercase tracking-widest font-bold">
                 Or
               </span>
-              <div className="flex-grow border-t border-white/5"></div>
+              <div className="grow border-t border-white/5"></div>
             </div>
 
             {/* Google Integration */}
