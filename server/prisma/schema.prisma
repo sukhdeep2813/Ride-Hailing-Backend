@@ -1,8 +1,49 @@
+// This is your database configuration
 datasource db {
- provider = "postgresql"
- url      = env("DataBase_URL")
+  provider = "postgresql"
+
 }
 
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
+  output   = "./generated/prisma-client"
 }
+
+// User Table: For both Riders and Drivers
+model User {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  name          String
+  googleId      String?  @unique
+  avatar        String?
+  role          Role     @default(RIDER)
+  
+  // For Ride-Hailing logic
+  phone         String?
+  rating        Float    @default(5.0)
+  
+  // Relational fields (for later)
+  ridesAsRider  Ride[]   @relation("RiderRides")
+  ridesAsDriver Ride[]   @relation("DriverRides")
+
+  createdAt     DateTime @default(now())
+}
+
+enum Role {
+  RIDER
+  DRIVER
+  ADMIN
+}
+
+model Ride {
+  id          String   @id @default(uuid())
+  riderId     String
+  driverId    String?
+  status      String   // PENDING, ACCEPTED, COMPLETED
+  pickupLoc   String   // We can use Geometry types later for PostGIS
+  dropoffLoc  String
+  
+  rider       User     @relation("RiderRides", fields: [riderId], references: [id])
+  driver      User?    @relation("DriverRides", fields: [driverId], references: [id])
+}
+

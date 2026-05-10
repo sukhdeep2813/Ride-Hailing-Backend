@@ -1,6 +1,9 @@
+import dotenv from "dotenv";
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
-import dotenv from "dotenv";
+import prisma from './db.js'; 
+
+// const prisma = new PrismaClient();
 
 dotenv.config();
 
@@ -13,20 +16,20 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
-        console.log("Google profile:", profile);
-       /*  console.log("Hello", profile.displayName); */
-        /*   const user = await User.findOne({ googleId: profile.id });
-
+        let user = await prisma.user.findUnique({
+          where: { googleId: profile.id },
+        });
 
         if (!user) {
-          const newUser = await User.create({
-            googleId: profile.id,
-            displayName: profile.displayName,
-            email: profile.emails[0].value,
-            avatar: profile.photos[0].value,
+          user = await prisma.user.create({
+            data: {
+              googleId: profile.id,
+              name: profile.displayName,
+              email: profile.emails[0].value,
+              role: "RIDER",
+            },
           });
         }
- */
         return done(null, profile);
       } catch (error) {
         return done(error, null);
@@ -40,7 +43,9 @@ passport.serializeUser((user, done) => done(null, user.id)); //saving userId to 
 
 //retrieving user from session using the userId
 passport.deserializeUser(async (id, done) => {
-  const user = await User.findById(id);
+  const user = await prisma.user.findUnique({
+    where: { id },
+  });
   done(null, user);
 });
 
