@@ -8,15 +8,23 @@ import {
   LogOut,
   Zap,
 } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const SideBar = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const menuItems = [
-    { icon: LayoutDashboard, label: "Dashboard", active: true },
-    { icon: History, label: "Ride History", active: false },
-    { icon: CreditCard, label: "Payments", active: false },
-    { icon: User, label: "Profile", active: false },
-    { icon: Settings, label: "Settings", active: false },
+    { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
+    { icon: History, label: "Ride History", path: "/dashboard/history" },
+    { icon: CreditCard, label: "Payments", path: "/dashboard/payments" },
+    { icon: User, label: "Profile", path: "/dashboard/profile" },
+    { icon: Settings, label: "Settings", path: "/dashboard/settings" },
   ];
+
+  const HandleLogOut = () => {
+    console.log("User Log Out ");
+    navigate("/");
+  };
   return (
     <aside className="w-64 h-screen bg-[#1A1A1A] text-white flex flex-col justify-between py-8">
       <div className="px-6">
@@ -31,25 +39,32 @@ const SideBar = () => {
 
         {/* Navigation Links */}
         <nav className="space-y-2">
-          {menuItems.map((item, index) => (
-            <button
-              key={index}
-              className={`w-full flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-200 ${
-                item.active
-                  ? "bg-[#FF5722] text-white shadow-lg shadow-orange-900/20"
-                  : "text-gray-400 hover:bg-white/5 hover:text-white"
-              }`}
-            >
-              <item.icon size={20} />
-              <span className="font-medium">{item.label}</span>
-            </button>
-          ))}
+          {menuItems.map((item, index) => {
+            const isActive = location.pathname === item.path;
+            return (
+              <button
+                key={index}
+                className={`w-full flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-200 ${
+                  isActive
+                    ? "bg-[#FF5722] text-white shadow-lg shadow-orange-900/20"
+                    : "text-gray-400 hover:bg-white/5 hover:text-white cursor-pointer"
+                }`}
+                onClick={() => navigate(item.path)}
+              >
+                <item.icon size={20} />
+                <span className="font-medium">{item.label}</span>
+              </button>
+            );
+          })}
         </nav>
       </div>
 
       {/*Log Out Button */}
       <div className="px-6">
-        <button className="w-full flex items-center gap-4 px-4 py-3 text-gray-400 hover:text-red-400 hover:bg-red-400/5 rounded-xl transition-all">
+        <button
+          className="w-full flex items-center gap-4 px-4 py-3 text-gray-400 hover:text-red-400 hover:bg-red-400/5 rounded-xl transition-all cursor-pointer"
+          onClick={HandleLogOut}
+        >
           <LogOut size={20} />
           <span className="font-medium">Logout</span>
         </button>
@@ -59,7 +74,6 @@ const SideBar = () => {
 };
 
 export default SideBar;
-
 
 /*
 
