@@ -2,6 +2,7 @@ import React from "react";
 import SideBar from "../components/SideBar";
 import MapContainer from "../components/MapContainer";
 import RideBookingWidget from "../components/RideBookingWidget";
+import Setting from "./Setting";
 
 const DashBoard = () => {
   return (
@@ -10,6 +11,7 @@ const DashBoard = () => {
       <main className="relative flex-1">
         <MapContainer />
         <RideBookingWidget />
+       
       </main>
     </div>
   );
