@@ -2,8 +2,8 @@ import "./App.css";
 import Landing from "./pages/Landing";
 import { Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
-import DashBoard from "./pages/DashBoard"; // This becomes our master frame layout
-import MapDashboard from "./pages/MapDashboard"; // Move your Map + Widget here!
+import DashBoard from "./pages/DashBoard"; // Main dashboard wrapper
+import MapDashboard from "./pages/MapDashboard"; // Map + Widget here!
 import Setting from "./pages/Setting";
 import History from "./pages/History";
 import Payments from "./pages/Payments";

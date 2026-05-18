@@ -32,14 +32,6 @@ const MapContainer = () => {
         </div>
       </div>
 
-      <div className="absolute inset-0 pt-16 pointer-events-none z-10 flex flex-col md:block justify-end">
-        <div className="pointer-events-auto w-full md:w-[420px] p-4 md:absolute md:top-8 md:left-8">
-          <div className="bg-white rounded-t-2xl md:rounded-2xl shadow-xl border border-gray-100 overflow-hidden mt-5">
-            <RideBookingWidget />
-          </div>
-        </div>
-      </div>
-
       <div className="w-full h-full flex items-center justify-center bg-[#eaeaea] z-0">
         <div className="text-gray-400 font-mono text-sm select-none">
           [ Responsive Map Layer ]
