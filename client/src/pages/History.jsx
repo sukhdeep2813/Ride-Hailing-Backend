@@ -62,7 +62,7 @@ const History = () => {
 
       <div className="overflow-x-auto rounded-2xl border border-white/10"></div>
 
-      <div className="min-w-[1000px] bg-gradient-to-br from-[#151515] to-black">
+      <div className="min-w-[1000px] bg-linear-to-br from-[#151515] to-black">
         <div className="grid grid-cols-6 px-6 py-5 border-b border-white/10 text-sm font-semibold text-zinc-300 ml-6">
           <p>Date & Time</p>
           <p>Pickup Location</p>
