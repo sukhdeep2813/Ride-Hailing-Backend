@@ -106,7 +106,6 @@ const RideBookingWidget = () => {
 
         {/* Destination Field with Mock Autocomplete Menu */}
         <div className="relative z-10">
-          
           <div className="relative flex items-center">
             <MapPin
               size={16}
@@ -130,7 +129,6 @@ const RideBookingWidget = () => {
             />
           </div>
 
-         
           {showDropdown && (
             <div className="absolute left-0 right-0 mt-1.5 bg-white border border-zinc-200 rounded-xl shadow-xl overflow-hidden z-50 max-h-48 overflow-y-auto">
               <button
@@ -217,7 +215,7 @@ const RideBookingWidget = () => {
               className="accent-[#FF5722] w-4 h-4"
             />
             <div className="flex items-center gap-1.5 text-zinc-700">
-              <Banknote size={16} className="text-zinc-500"/>
+              <Banknote size={16} className="text-zinc-500" />
               <span>Cash</span>
             </div>
           </label>
