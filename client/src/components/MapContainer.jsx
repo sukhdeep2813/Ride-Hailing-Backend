@@ -5,6 +5,8 @@ import { Bell, User, Menu } from "lucide-react";
 const MapContainer = () => {
   const nsutCoordinates = { lat: 28.609135, lng: 77.035081 };
 
+  //For NavBar
+
   return (
     <div className="relative w-full h-screen overflow-hidden bg-[#1e1e1e]">
       {/* 1. TOP BAR */}
