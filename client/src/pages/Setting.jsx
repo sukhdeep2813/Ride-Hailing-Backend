@@ -51,7 +51,7 @@ const Setting = () => {
               </div>
 
               {/* Notifications Switch */}
-              <div className="flex items-center justify-between p-3 bg-zinc-950 rounded-xl border border-white/[0.02]">
+              <div className="flex items-center justify-between p-3 bg-zinc-950 rounded-xl border border-white/2">
                 <div className="pr-2">
                   <p className="text-sm font-semibold text-zinc-200">
                     Notification Sounds
