@@ -1,11 +1,14 @@
+import { Map, AdvancedMarker } from "@vis.gl/react-google-maps";
 import RideBookingWidget from "./RideBookingWidget";
-import { Bell, User, Menu } from "lucide-react"; // Added Menu icon for mobile toggle
+import { Bell, User, Menu } from "lucide-react";
 
 const MapContainer = () => {
+  const nsutCoordinates = { lat: 28.609135, lng: 77.035081 };
+
   return (
-    <div className="relative w-full h-screen overflow-hidden bg-[#1e1e1e] ">
-      {/* 1.  TOP BAR */}
-      <div className="absolute top-0 left-0 w-full h-13 bg-white/20 backdrop-blur-xl border border-white/20 rounded-b-2xl md:rounded-b-3xl px-4 md:px-8 flex items-center justify-between z-20 shadow-lg">
+    <div className="relative w-full h-screen overflow-hidden bg-[#1e1e1e]">
+      {/* 1. TOP BAR */}
+      <div className="absolute top-0 left-0 w-full h-16 bg-white/70 backdrop-blur-xl border-b border-white/20 rounded-b-2xl md:rounded-b-3xl px-4 md:px-8 flex items-center justify-between z-20 shadow-lg">
         <button className="md:hidden text-gray-700 hover:text-gray-900 cursor-pointer">
           <Menu size={24} />
         </button>
@@ -25,17 +28,36 @@ const MapContainer = () => {
             <span className="absolute top-0 right-0 w-2 h-2 bg-[#FF5722] rounded-full"></span>
           </button>
 
-          {/* User Avatar  */}
+          {/* User Avatar */}
           <div className="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center text-gray-700 font-bold border border-gray-300 cursor-pointer">
             <User size={18} />
           </div>
         </div>
       </div>
 
-      <div className="w-full h-full flex items-center justify-center bg-[#eaeaea] z-0">
-        <div className="text-gray-400 font-mono text-sm select-none">
-          [ Responsive Map Layer ]
+      {/* 2. WIDGET LAYER */}
+      {/* Changed pt-16 to pt-20 to clear your rounded header cleanly */}
+      <div className="absolute inset-0 pt-20 pointer-events-none z-10 flex flex-col md:block justify-end">
+        <div className="pointer-events-auto w-full md:w-105 p-4 md:absolute md:top-4 md:left-8">
+          <div className="bg-white rounded-t-2xl md:rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
+            <RideBookingWidget />
+          </div>
         </div>
+      </div>
+
+      {/* 3. LIVE GOOGLE MAPS LAYER */}
+
+      <div className="absolute inset-0 w-full h-full z-0">
+        <Map
+          defaultZoom={15}
+          defaultCenter={nsutCoordinates}
+          gestureHandling={"greedy"}
+          disableDefaultUI={false}
+          // FOR ADVANCED MARKERS: Replace with your actual Google Cloud Map ID
+          mapId={"f4bf5c8f8c5e29847dc72a5f"}
+        >
+          <AdvancedMarker position={nsutCoordinates} title={"NSUT Campus"} />
+        </Map>
       </div>
     </div>
   );
