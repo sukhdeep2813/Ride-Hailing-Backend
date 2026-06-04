@@ -3,10 +3,8 @@ import MapContainer from "../components/MapContainer";
 import { APIProvider } from "@vis.gl/react-google-maps";
 
 const MapDashboard = () => {
-  //HardCoded API till ERROR
-
   return (
-    <APIProvider apiKey={VITE_GOOGLE_MAPS_API_KEY}>
+    <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
       <div className="w-full h-full relative">
         <MapContainer />
       </div>

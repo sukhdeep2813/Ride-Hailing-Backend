@@ -12,24 +12,31 @@ import { LayoutProvider } from "./context/LayoutContext";
 
 function App() {
   return (
-    <LayoutProvider>
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/login" element={<Login />} />
+    <Routes>
+      <Route path="/" element={<Landing />} />
+      <Route path="/login" element={<Login />} />
 
-        {/* 1. Make DashBoard the parent wrapper element */}
-        <Route path="/dashboard" element={<DashBoard />}>
-          {/* 2. When on exactly /dashboard, load the Map & Widget */}
-          <Route index element={<MapDashboard />} />
+      {/* 1. Make DashBoard the parent wrapper element */}
+      {/*setting LayoutProvider to only DashBoard because  we want to discard MEMORY and to secure /dashBoard */}
+      <Route
+        path="/dashboard"
+        element={
+          <LayoutProvider>
+            {" "}
+            <DashBoard />{" "}
+          </LayoutProvider>
+        }
+      >
+        {/* 2. When on exactly /dashboard, load the Map & Widget */}
+        <Route index element={<MapDashboard />} />
 
-          {/* 3. Sub-routes render inside DashBoard's <Outlet /> */}
-          <Route path="settings" element={<Setting />} />
-          <Route path="history" element={<History />} />
-          <Route path="payments" element={<Payments />} />
-          <Route path="profile" element={<Profile />} />
-        </Route>
-      </Routes>
-    </LayoutProvider>
+        {/* 3. Sub-routes render inside DashBoard's <Outlet /> */}
+        <Route path="settings" element={<Setting />} />
+        <Route path="history" element={<History />} />
+        <Route path="payments" element={<Payments />} />
+        <Route path="profile" element={<Profile />} />
+      </Route>
+    </Routes>
   );
 }
 
