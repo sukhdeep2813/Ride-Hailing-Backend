@@ -8,9 +8,11 @@ import {
   CreditCard,
   Banknote,
 } from "lucide-react";
+import { useLayout } from "../context/LayoutContext";
 
 const RideBookingWidget = () => {
   // State Management for Inputs & Toggles
+  const { setIsSearching } = useLayout();
   const [pickup, setPickup] = useState("");
   const [destination, setDestination] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
@@ -69,6 +71,7 @@ const RideBookingWidget = () => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
+    setIsSearching(true); // Trigger the search state to hide the widget and show the map results
     console.log("Submitting Ride Request:", {
       pickup,
       destination,
@@ -92,6 +95,7 @@ const RideBookingWidget = () => {
               className="absolute left-3 text-zinc-500 fill-zinc-400 z-10 shrink-0"
             />
             <input
+            
               type="text"
               placeholder="Current Location / Enter pickup address..."
               value={pickup}

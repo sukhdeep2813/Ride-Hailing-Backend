@@ -1,16 +1,20 @@
 import { Map, AdvancedMarker } from "@vis.gl/react-google-maps";
 import RideBookingWidget from "./RideBookingWidget";
 import { Bell, User, Menu } from "lucide-react";
+import { useLayout } from "../context/LayoutContext";
 
 const MapContainer = () => {
   const nsutCoordinates = { lat: 28.609135, lng: 77.035081 };
 
   //For NavBar
+  const { isSearching } = useLayout();
 
   return (
     <div className="relative w-full h-screen overflow-hidden bg-[#1e1e1e]">
       {/* 1. TOP BAR */}
-      <div className="absolute top-0 left-0 w-full h-16 bg-white/70 backdrop-blur-xl border-b border-white/20 rounded-b-2xl md:rounded-b-3xl px-4 md:px-8 flex items-center justify-between z-20 shadow-lg">
+      <div
+        className={`absolute top-0 left-0 w-full h-16 bg-white/70 backdrop-blur-xl border-b border-white/20 rounded-b-2xl md:rounded-b-3xl px-4 md:px-8 flex items-center justify-between z-20 shadow-lg transition-transform duration-500 ease-in-out ${isSearching ? "-translate-y-full" : "translate-y-0"}`}
+      >
         <button className="md:hidden text-gray-700 hover:text-gray-900 cursor-pointer">
           <Menu size={24} />
         </button>
@@ -40,7 +44,13 @@ const MapContainer = () => {
       {/* 2. WIDGET LAYER */}
       {/* Changed pt-16 to pt-20 to clear your rounded header cleanly */}
       <div className="absolute inset-0 pt-20 pointer-events-none z-10 flex flex-col md:block justify-end">
-        <div className="pointer-events-auto w-full md:w-105 p-4 md:absolute md:top-4 md:left-8">
+        <div
+          className={`pointer-events-auto w-full md:w-105 p-4 md:absolute md:top-4 md:left-8 transition-all duration-500 ease-in-out ${
+            isSearching
+              ? "-translate-x-[120%] opacity-0 pointer-events-none"
+              : "translate-x-0 opacity-100"
+          }`}
+        >
           <div className="bg-white rounded-t-2xl md:rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
             <RideBookingWidget />
           </div>
