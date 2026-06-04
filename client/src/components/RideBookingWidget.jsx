@@ -102,7 +102,7 @@ const RideBookingWidget = () => {
         </div>
 
         {/* Connecting Line Aesthetic */}
-        <div className="absolute left-5 top-[56px] h-7 w-0.5 border-l-2 border-dotted border-zinc-300 z-0" />
+        <div className="absolute left-5 top-14 h-7 w-0.5 border-l-2 border-dotted border-zinc-300 z-0" />
 
         {/* Destination Field with Mock Autocomplete Menu */}
         <div className="relative z-10">
