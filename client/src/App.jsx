@@ -9,34 +9,39 @@ import History from "./pages/History";
 import Payments from "./pages/Payments";
 import Profile from "./pages/Profile";
 import { LayoutProvider } from "./context/LayoutContext";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Landing />} />
-      <Route path="/login" element={<Login />} />
+    <>
+      <Toaster position="top-right" reverseOrder={false} />
 
-      {/* 1. Make DashBoard the parent wrapper element */}
-      {/*setting LayoutProvider to only DashBoard because  we want to discard MEMORY and to secure /dashBoard */}
-      <Route
-        path="/dashboard"
-        element={
-          <LayoutProvider>
-            {" "}
-            <DashBoard />{" "}
-          </LayoutProvider>
-        }
-      >
-        {/* 2. When on exactly /dashboard, load the Map & Widget */}
-        <Route index element={<MapDashboard />} />
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/login" element={<Login />} />
 
-        {/* 3. Sub-routes render inside DashBoard's <Outlet /> */}
-        <Route path="settings" element={<Setting />} />
-        <Route path="history" element={<History />} />
-        <Route path="payments" element={<Payments />} />
-        <Route path="profile" element={<Profile />} />
-      </Route>
-    </Routes>
+        {/* 1. Make DashBoard the parent wrapper element */}
+        {/*setting LayoutProvider to only DashBoard because  we want to discard MEMORY and to secure /dashBoard */}
+        <Route
+          path="/dashboard"
+          element={
+            <LayoutProvider>
+              {" "}
+              <DashBoard />{" "}
+            </LayoutProvider>
+          }
+        >
+          {/* 2. When on exactly /dashboard, load the Map & Widget */}
+          <Route index element={<MapDashboard />} />
+
+          {/* 3. Sub-routes render inside DashBoard's <Outlet /> */}
+          <Route path="settings" element={<Setting />} />
+          <Route path="history" element={<History />} />
+          <Route path="payments" element={<Payments />} />
+          <Route path="profile" element={<Profile />} />
+        </Route>
+      </Routes>
+    </>
   );
 }
 
