@@ -4,9 +4,12 @@ const LayoutContext = createContext();
 
 export const LayoutProvider = ({ children }) => {
   const [isSearching, setIsSearching] = useState(false);
+  const [mapCenter, setMapCenter] = useState({ lat: 28.6328, lng: 77.2183 }); // Default to NSUT
 
   return (
-    <LayoutContext.Provider value={{ isSearching, setIsSearching }}>
+    <LayoutContext.Provider
+      value={{ isSearching, setIsSearching, mapCenter, setMapCenter }}
+    >
       {children}
     </LayoutContext.Provider>
   );
