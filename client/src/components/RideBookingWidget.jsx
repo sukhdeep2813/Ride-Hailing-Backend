@@ -9,12 +9,14 @@ import {
   Banknote,
 } from "lucide-react";
 import { useLayout } from "../context/LayoutContext";
+import { toast } from "react-hot-toast";
 
 const RideBookingWidget = () => {
   // State Management for Inputs & Toggles
   const { setIsSearching } = useLayout();
   const [pickup, setPickup] = useState("");
   const [destination, setDestination] = useState("");
+
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedVehicle, setSelectedVehicle] = useState("BoltSedan");
   const [paymentMethod, setPaymentMethod] = useState("Cash");
@@ -71,6 +73,39 @@ const RideBookingWidget = () => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
+
+    if (!pickup.trim() && !destination.trim()) {
+      toast.error("Please enter both pickup and destination locations.", {
+        style: {
+          background: "#1c1c1e",
+          color: "#fff",
+          borderRadius: "12px",
+          border: "1px solid rgba(255,255,255,0.1)",
+        },
+      });
+      return; // stopping the function execution if validation fails
+    }
+
+    if (!pickup.trim()) {
+      toast.error("Pickup location is required.", {
+        style: { background: "#1c1c1e", color: "#fff", borderRadius: "12px" },
+      });
+      return;
+    }
+
+    if (!destination.trim()) {
+      toast.error("Destination location is required.", {
+        style: { background: "#1c1c1e", color: "#fff", borderRadius: "12px" },
+      });
+      return;
+    }
+
+    // 3. Success Toast Notification before animation kicks in
+    toast.success("Route generated successfully! Finding drivers...", {
+      style: { background: "#1c1c1e", color: "#fff", borderRadius: "12px" },
+      iconTheme: { primary: "#499949", secondary: "#fff" },
+    });
+
     setIsSearching(true); // Trigger the search state to hide the widget and show the map results
     console.log("Submitting Ride Request:", {
       pickup,
@@ -95,7 +130,6 @@ const RideBookingWidget = () => {
               className="absolute left-3 text-zinc-500 fill-zinc-400 z-10 shrink-0"
             />
             <input
-            
               type="text"
               placeholder="Current Location / Enter pickup address..."
               value={pickup}
