@@ -1,13 +1,27 @@
-import { Map, AdvancedMarker } from "@vis.gl/react-google-maps";
+import { Map, AdvancedMarker, useMap } from "@vis.gl/react-google-maps";
 import RideBookingWidget from "./RideBookingWidget";
 import { Bell, User, Menu } from "lucide-react";
 import { useLayout } from "../context/LayoutContext";
+import { useEffect } from "react";
+
+const MapCameraController = ({ center }) => {
+  const map = useMap();
+
+  useEffect(() => {
+    if (map && center) {
+      map.panTo(center);
+      map.setZoom(16);
+    }
+  }, [map, center]);
+
+  return null; // This component doesn't render anything itself
+};
 
 const MapContainer = () => {
   const nsutCoordinates = { lat: 28.609135, lng: 77.035081 };
 
   //For NavBar
-  const { isSearching } = useLayout();
+  const { isSearching, mapCenter } = useLayout();
 
   return (
     <div className="relative w-full h-screen overflow-hidden bg-[#1e1e1e]">
@@ -69,6 +83,9 @@ const MapContainer = () => {
           mapId={"f4bf5c8f8c5e29847dc72a5f"}
         >
           <AdvancedMarker position={nsutCoordinates} title={"NSUT Campus"} />
+
+          {/*Fixed Map Controller */}
+          <MapCameraController center={mapCenter} />
         </Map>
       </div>
     </div>
