@@ -45,7 +45,7 @@ const MapContainer = () => {
 
       {/* 2. WIDGET LAYER */}
       {/* Changed pt-16 to pt-20 to clear your rounded header cleanly */}
-      <div className="absolute inset-0 pt-20 pointer-events-none z-10 flex flex-col md:block justify-end">
+      <div className="absolute inset-0 pt-20 pointer-events-none z-10 flex flex-col md:block justify-end ">
         <div
           className={`pointer-events-auto w-full md:w-105 p-4 md:absolute md:top-4 md:left-8 transition-all duration-500 ease-in-out ${
             isSearching
@@ -53,7 +53,7 @@ const MapContainer = () => {
               : "translate-x-0 opacity-100"
           }`}
         >
-          <div className="bg-white rounded-t-2xl md:rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
+          <div className="bg-black rounded-t-2xl md:rounded-2xl shadow-2xl border border-gray-100 overflow-hidden mt-12">
             <RideBookingWidget />
           </div>
         </div>
