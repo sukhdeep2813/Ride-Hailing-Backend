@@ -11,17 +11,17 @@ import {
 import { useLayout } from "../context/LayoutContext";
 import { toast } from "react-hot-toast";
 
-const MOCK_GEOCODE_DATABASE = {
-  "dwarka mor": { lat: 28.6165, lng: 77.0325 },
-  janakpuri: { lat: 28.6214, lng: 77.0878 },
-  "connaught place": { lat: 28.6304, lng: 77.2177 },
-  nsut: { lat: 28.609135, lng: 77.035081 },
-  "uttam nagar": { lat: 28.6219, lng: 77.0583 },
-};
+// const MOCK_GEOCODE_DATABASE = {
+//   "dwarka mor": { lat: 28.6165, lng: 77.0325 },
+//   janakpuri: { lat: 28.6214, lng: 77.0878 },
+//   "connaught place": { lat: 28.6304, lng: 77.2177 },
+//   nsut: { lat: 28.609135, lng: 77.035081 },
+//   "uttam nagar": { lat: 28.6219, lng: 77.0583 },
+// };
 
 const RideBookingWidget = () => {
   // State Management for Inputs & Toggles
-  const { setIsSearching, setMapCenter } = useLayout();
+  const { setIsSearching, setRoutePoints } = useLayout();
   const [pickup, setPickup] = useState("");
   const [destination, setDestination] = useState("");
 
@@ -82,7 +82,7 @@ const RideBookingWidget = () => {
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
-    if (!pickup.trim()) {
+    if (!pickup.trim() || !destination.trim()) {
       toast.error("Please enter both pickup and destination locations.", {
         style: {
           background: "#1c1c1e",
@@ -94,12 +94,10 @@ const RideBookingWidget = () => {
       return; // stopping the function execution if validation fails
     }
 
-    if (!pickup.trim()) {
-      toast.error("Pickup location is required.", {
-        style: { background: "#1c1c1e", color: "#fff", borderRadius: "12px" },
-      });
-      return;
-    }
+    setRoutePoints({
+      pickup: pickup.toLowerCase().trim(),
+      destination: destination.toLowerCase().trim(),
+    });
 
     // if (!destination.trim()) {
     //   toast.error("Destination location is required.", {
@@ -108,28 +106,36 @@ const RideBookingWidget = () => {
     //   return;
     // }
 
-    const lookupKey = pickup.toLowerCase().trim();
+    // const lookupKey = pickup.toLowerCase().trim();
 
-    if (MOCK_GEOCODE_DATABASE[lookupKey]) {
-      const newCordinates = MOCK_GEOCODE_DATABASE[lookupKey];
-      setMapCenter(newCordinates);
+    // if (MOCK_GEOCODE_DATABASE[lookupKey]) {
+    //   const newCordinates = MOCK_GEOCODE_DATABASE[lookupKey];
+    //   setMapCenter(newCordinates);
 
-      toast.success(`Route generated successfully!${pickup}`, {
-        style: { background: "#1c1c1e", color: "#fff", borderRadius: "12px" },
-        iconTheme: { primary: "#499949", secondary: "#fff" },
-      });
-      setIsSearching(true);
-    } else {
-      toast.error(
-        "Location not in demo index. Try 'Dwarka Mor' or 'Connaught Place'!",
-        {
-          duration: 4000,
-        },
-      );
-    }
+    //   toast.success(`Route generated successfully!${pickup}`, {
+    //     style: { background: "#1c1c1e", color: "#fff", borderRadius: "12px" },
+    //     iconTheme: { primary: "#499949", secondary: "#fff" },
+    //   });
+    //   setIsSearching(true);
+    // } else {
+    //   toast.error(
+    //     "Location not in demo index. Try 'Dwarka Mor' or 'Connaught Place'!",
+    //     {
+    //       duration: 4000,
+    //     },
+    //   );
+    // }
     // 3. Success Toast Notification before animation kicks in
 
     // Trigger the search state to hide the widget and show the map results
+
+    toast.loading("Plotting optimal ride path...", { duration: 1500 });
+
+    // 2. Clear panels via translation slide animations
+    setTimeout(() => {
+      setIsSearching(true);
+    }, 1000);
+
     console.log("Submitting Ride Request:", {
       pickup,
       destination,
