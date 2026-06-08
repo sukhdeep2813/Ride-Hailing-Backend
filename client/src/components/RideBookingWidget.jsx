@@ -84,35 +84,6 @@ const RideBookingWidget = () => {
       pickup: pickup.toLowerCase().trim(),
       destination: destination.toLowerCase().trim(),
     });
-
-    // if (!destination.trim()) {
-    //   toast.error("Destination location is required.", {
-    //     style: { background: "#1c1c1e", color: "#fff", borderRadius: "12px" },
-    //   });
-    //   return;
-    // }
-
-    // const lookupKey = pickup.toLowerCase().trim();
-
-    // if (MOCK_GEOCODE_DATABASE[lookupKey]) {
-    //   const newCordinates = MOCK_GEOCODE_DATABASE[lookupKey];
-    //   setMapCenter(newCordinates);
-
-    //   toast.success(`Route generated successfully!${pickup}`, {
-    //     style: { background: "#1c1c1e", color: "#fff", borderRadius: "12px" },
-    //     iconTheme: { primary: "#499949", secondary: "#fff" },
-    //   });
-    //   setIsSearching(true);
-    // } else {
-    //   toast.error(
-    //     "Location not in demo index. Try 'Dwarka Mor' or 'Connaught Place'!",
-    //     {
-    //       duration: 4000,
-    //     },
-    //   );
-    // }
-    // 3. Success Toast Notification before animation kicks in
-
     // Trigger the search state to hide the widget and show the map results
 
     toast.loading("Plotting optimal ride path...", { duration: 1500 });
