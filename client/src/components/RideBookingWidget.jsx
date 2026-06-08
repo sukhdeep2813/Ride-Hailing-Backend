@@ -11,21 +11,12 @@ import {
 import { useLayout } from "../context/LayoutContext";
 import { toast } from "react-hot-toast";
 
-// const MOCK_GEOCODE_DATABASE = {
-//   "dwarka mor": { lat: 28.6165, lng: 77.0325 },
-//   janakpuri: { lat: 28.6214, lng: 77.0878 },
-//   "connaught place": { lat: 28.6304, lng: 77.2177 },
-//   nsut: { lat: 28.609135, lng: 77.035081 },
-//   "uttam nagar": { lat: 28.6219, lng: 77.0583 },
-// };
-
 const RideBookingWidget = () => {
   // State Management for Inputs & Toggles
   const { setIsSearching, setRoutePoints } = useLayout();
   const [pickup, setPickup] = useState("");
   const [destination, setDestination] = useState("");
 
-  const [showDropdown, setShowDropdown] = useState(false);
   const [selectedVehicle, setSelectedVehicle] = useState("BoltSedan");
   const [paymentMethod, setPaymentMethod] = useState("Cash");
 
@@ -73,11 +64,6 @@ const RideBookingWidget = () => {
       icon: Car,
     },
   ];
-
-  const handleDestinationSelect = (val) => {
-    setDestination(val);
-    setShowDropdown(false);
-  };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -145,7 +131,7 @@ const RideBookingWidget = () => {
   };
 
   return (
-    <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl border border-zinc-100 p-5 text-zinc-900 font-sans mt-10">
+    <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl border border-zinc-100 p-5 text-zinc-900 font-sans ">
       {/* --- SECTION 1: PICKUP & DESTINATION INPUT FIELDS --- */}
       <form onSubmit={handleFormSubmit} className="space-y-4 relative">
         {/* Pickup Field */}
@@ -180,50 +166,14 @@ const RideBookingWidget = () => {
             />
             <input
               type="text"
-              placeholder="Where to? (e.g. Connaught Place)"
+              placeholder="Enter destination address..."
               value={destination}
               onChange={(e) => {
                 setDestination(e.target.value);
-                setShowDropdown(true);
               }}
-              onFocus={() => setShowDropdown(true)}
               className="w-full bg-white border border-orange-600/30 pl-10 pr-10 py-2.5 rounded-xl text-sm font-medium text-zinc-800 placeholder-zinc-400 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500/20 transition-all"
             />
-            <ChevronDown
-              size={16}
-              className="absolute right-3 text-zinc-400 cursor-pointer"
-              onClick={() => setShowDropdown(!showDropdown)}
-            />
           </div>
-
-          {showDropdown && (
-            <div className="absolute left-0 right-0 mt-1.5 bg-white border border-zinc-200 rounded-xl shadow-xl overflow-hidden z-50 max-h-48 overflow-y-auto">
-              <button
-                type="button"
-                onClick={() =>
-                  handleDestinationSelect("Connaught Place, New Delhi")
-                }
-                className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-50 text-zinc-700 border-b border-zinc-100 transition-colors flex flex-col"
-              >
-                <span className="font-semibold text-zinc-800">
-                  Connaught Place
-                </span>
-                <span className="text-xs text-zinc-400">
-                  New Delhi, Delhi, India
-                </span>
-              </button>
-              <button
-                type="button"
-                onClick={() => handleDestinationSelect("NSUT Campus, Dwarka")}
-                className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-50 text-zinc-700 transition-colors flex flex-col"
-              >
-                <span className="font-semibold text-zinc-800">NSUT Campus</span>
-                <span className="text-xs text-zinc-400">
-                  Azad Hind Fauj Marg, Dwarka Sector 3
-                </span>
-              </button>
-            </div>
-          )}
         </div>
       </form>
 
