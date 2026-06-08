@@ -5,10 +5,18 @@ const LayoutContext = createContext();
 export const LayoutProvider = ({ children }) => {
   const [isSearching, setIsSearching] = useState(false);
   const [mapCenter, setMapCenter] = useState({ lat: 28.6328, lng: 77.2183 }); // Default to NSUT
+  const [routePoints, setRoutePoints] = useState([]); // For storing route points
 
   return (
     <LayoutContext.Provider
-      value={{ isSearching, setIsSearching, mapCenter, setMapCenter }}
+      value={{
+        isSearching,
+        setIsSearching,
+        mapCenter,
+        setMapCenter,
+        routePoints,
+        setRoutePoints,
+      }}
     >
       {children}
     </LayoutContext.Provider>
