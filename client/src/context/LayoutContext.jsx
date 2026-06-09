@@ -6,6 +6,7 @@ export const LayoutProvider = ({ children }) => {
   const [isSearching, setIsSearching] = useState(false);
   const [mapCenter, setMapCenter] = useState({ lat: 28.6328, lng: 77.2183 }); // Default to NSUT
   const [routePoints, setRoutePoints] = useState([]); // For storing route points
+  const [mapStyle, setMapStyle] = useState("roadmap"); // For toggling map styles
 
   return (
     <LayoutContext.Provider
@@ -16,6 +17,8 @@ export const LayoutProvider = ({ children }) => {
         setMapCenter,
         routePoints,
         setRoutePoints,
+        mapStyle,
+        setMapStyle,
       }}
     >
       {children}
