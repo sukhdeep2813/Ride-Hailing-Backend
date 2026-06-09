@@ -1,15 +1,28 @@
-import { Map, AdvancedMarker } from "@vis.gl/react-google-maps";
+import { Map, AdvancedMarker, useMap } from "@vis.gl/react-google-maps";
 import RideBookingWidget from "./RideBookingWidget";
 import { Bell, User, Menu } from "lucide-react";
 import { useLayout } from "../context/LayoutContext";
 
 import MapDirectionsRenderer from "./MapDirectionsRenderer";
+import { useEffect } from "react";
+
+const MapStyleController = ({ style }) => {
+  const map = useMap();
+
+  useEffect(() => {
+    if (map && style) {
+      map.setMapTypeId(style);
+    }
+  }, [map, style]);
+
+  return null;
+};
 
 const MapContainer = () => {
   const nsutCoordinates = { lat: 28.609135, lng: 77.035081 };
 
   //For NavBar
-  const { isSearching, routePoints } = useLayout();
+  const { isSearching, routePoints, mapStyle } = useLayout();
 
   return (
     <div className="relative w-full h-screen overflow-hidden bg-[#1e1e1e]">
@@ -66,8 +79,9 @@ const MapContainer = () => {
           defaultZoom={15}
           defaultCenter={nsutCoordinates}
           gestureHandling={"greedy"}
-          disableDefaultUI={false}
+          disableDefaultUI={true}
           // FOR ADVANCED MARKERS: Replace with your actual Google Cloud Map ID
+          mapIdStyle={mapStyle}
           mapId={"f4bf5c8f8c5e29847dc72a5f"}
         >
           {isSearching && routePoints.pickup && routePoints.destination && (
@@ -79,6 +93,7 @@ const MapContainer = () => {
           <AdvancedMarker position={nsutCoordinates} title={"NSUT Campus"} />
 
           {/*Fixed Map Controller */}
+          <MapStyleController style={mapStyle} />
         </Map>
       </div>
     </div>
