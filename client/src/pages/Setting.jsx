@@ -1,11 +1,21 @@
 import React, { useState } from "react";
 import { Sliders, Lock, Eye, Info, Trash2, ChevronRight } from "lucide-react";
+import { useLayout } from "../context/LayoutContext";
 
 const Setting = () => {
   const [theme, setTheme] = useState(true);
   const [notifications, setNotifications] = useState(true);
-  const [mapType, setMapType] = useState("Default");
+
   const [sharedData, setSharedData] = useState(true);
+
+  const { mapStyle, setMapStyle } = useLayout();
+
+  const getUiLabel = (key) => {
+    if (key === "roadmap") return "Default";
+    if (key === "satellite") return "Satellite";
+    if (key === "terrain") return "Terrain";
+    return "Default";
+  };
 
   return (
     // P-3 on mobile to maximize space, scaling up to p-8 on desktop
@@ -77,16 +87,18 @@ const Setting = () => {
                   <p className="text-sm font-semibold text-zinc-200">
                     Map Layout
                   </p>
-                  <p className="text-xs text-zinc-500 mt-0.5">Render View</p>
+                  <p className="text-xs text-zinc-500 mt-0.5 ">
+                    Currently: {getUiLabel(mapStyle)}
+                  </p>
                 </div>
                 <select
-                  value={mapType}
-                  onChange={(e) => setMapType(e.target.value)}
+                  value={mapStyle}
+                  onChange={(e) => setMapStyle(e.target.value)}
                   className="bg-zinc-900 border border-white/10 rounded-lg p-1.5 text-xs font-medium text-zinc-200 focus:outline-none focus:border-[#FF5722] cursor-pointer"
                 >
-                  <option value="Default">Default</option>
-                  <option value="Satellite">Satellite</option>
-                  <option value="Terrain">Terrain</option>
+                  <option value="roadmap">Default</option>
+                  <option value="satellite">Satellite</option>
+                  <option value="terrain">Terrain</option>
                 </select>
               </div>
             </div>
