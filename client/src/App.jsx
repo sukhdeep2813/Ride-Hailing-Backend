@@ -10,6 +10,7 @@ import Payments from "./pages/Payments";
 import Profile from "./pages/Profile";
 import { LayoutProvider } from "./context/LayoutContext";
 import { Toaster } from "react-hot-toast";
+import SignUp from "./pages/SignUp";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
 
         {/* 1. Make DashBoard the parent wrapper element */}
         {/*setting LayoutProvider to only DashBoard because  we want to discard MEMORY and to secure /dashBoard */}
