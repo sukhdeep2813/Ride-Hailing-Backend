@@ -54,14 +54,15 @@ const Signup = () => {
 
       // 3. PERSIST AUTHENTICATION STATE
       localStorage.setItem("token", data.token);
-      
+
       toast.success(`Welcome to MetroBolt, ${name}!`, { id: "signup" });
-      
+
       // 4. ROUTE STRAIGHT INTO THE CORE MAP ENVIRONMENT
       navigate("/dashboard");
-
     } catch (error) {
-      toast.error(error.message || "Network error. Please try again later.", { id: "signup" });
+      toast.error(error.message || "Network error. Please try again later.", {
+        id: "signup",
+      });
     } finally {
       setIsLoading(false);
     }
@@ -70,20 +71,26 @@ const Signup = () => {
   return (
     <div className="w-full min-h-screen bg-black text-white flex items-center justify-center p-4">
       <div className="w-full max-w-md bg-zinc-900/40 border border-white/10 rounded-3xl p-6 sm:p-8 backdrop-blur-xl shadow-2xl">
-        
         {/* Branding & Header */}
         <div className="mb-8 text-center sm:text-left">
           <div className="flex items-center justify-center sm:justify-start gap-2 text-[#FF5722] font-black text-xl tracking-tight mb-2">
-            <span className="p-1.5 bg-[#FF5722]/10 rounded-xl">⚡</span> MetroBolt
+            <span className="p-1.5 bg-[#FF5722]/10 rounded-xl">⚡</span>{" "}
+            MetroBolt
           </div>
-          <h2 className="text-xl sm:text-2xl font-bold text-zinc-100">Create your account</h2>
-          <p className="text-xs text-zinc-500 mt-1">Join the network to track and book premium rides.</p>
+          <h2 className="text-xl sm:text-2xl font-bold text-zinc-100">
+            Create your account
+          </h2>
+          <p className="text-xs text-zinc-500 mt-1">
+            Join the network to track and book premium rides.
+          </p>
         </div>
 
         <form onSubmit={handleSignupSubmit} className="space-y-4">
           {/* FULL NAME INPUT */}
           <div className="space-y-1.5">
-            <label className="text-xs font-bold uppercase tracking-wider text-zinc-400">Full Name</label>
+            <label className="text-xs font-bold uppercase tracking-wider text-zinc-400">
+              Full Name
+            </label>
             <div className="relative flex items-center">
               <User size={18} className="absolute left-3.5 text-zinc-500" />
               <input
@@ -99,7 +106,9 @@ const Signup = () => {
 
           {/* EMAIL INPUT */}
           <div className="space-y-1.5">
-            <label className="text-xs font-bold uppercase tracking-wider text-zinc-400">Email Address</label>
+            <label className="text-xs font-bold uppercase tracking-wider text-zinc-400">
+              Email Address
+            </label>
             <div className="relative flex items-center">
               <Mail size={18} className="absolute left-3.5 text-zinc-500" />
               <input
@@ -115,7 +124,9 @@ const Signup = () => {
 
           {/* PASSWORD INPUT */}
           <div className="space-y-1.5">
-            <label className="text-xs font-bold uppercase tracking-wider text-zinc-400">Password</label>
+            <label className="text-xs font-bold uppercase tracking-wider text-zinc-400">
+              Password
+            </label>
             <div className="relative flex items-center">
               <Lock size={18} className="absolute left-3.5 text-zinc-500" />
               <input
@@ -143,18 +154,25 @@ const Signup = () => {
             className="w-full bg-[#FF5722] hover:bg-[#E54E1E] disabled:bg-zinc-800 disabled:text-zinc-600 text-white font-bold py-3 px-4 rounded-xl transition-all mt-6 flex items-center justify-center gap-2 group cursor-pointer shadow-lg shadow-orange-500/10"
           >
             {isLoading ? "Registering..." : "Sign Up"}
-            {!isLoading && <ArrowRight size={16} className="transform group-hover:translate-x-1 transition-transform" />}
+            {!isLoading && (
+              <ArrowRight
+                size={16}
+                className="transform group-hover:translate-x-1 transition-transform"
+              />
+            )}
           </button>
         </form>
 
         {/* FOOTER SWITCH BUTTON */}
         <div className="mt-6 text-center text-xs text-zinc-500">
           Already have a MetroBolt profile?{" "}
-          <Link to="/login" className="text-[#FF5722] font-semibold hover:underline">
+          <Link
+            to="/login"
+            className="text-[#FF5722] font-semibold hover:underline"
+          >
             Log In
           </Link>
         </div>
-
       </div>
     </div>
   );
