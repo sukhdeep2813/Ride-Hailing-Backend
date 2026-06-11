@@ -23,7 +23,7 @@ const Signup = () => {
     e.preventDefault();
     const { name, email, password } = formData;
 
-    // 1. FRONTEND SANITIZATION VALIDATION GUARDS
+    // 1. FRONTEND VALIDATION
     if (!name.trim() || !email.trim() || !password.trim()) {
       toast.error("Please fill in all registration fields.");
       return;
@@ -38,13 +38,16 @@ const Signup = () => {
       setIsLoading(true);
       toast.loading("Creating your MetroBolt account...", { id: "signup" });
 
-      // 2. DISPATCH REGISTRATION PAYLOAD TO YOUR EXPRESS SERVER
-      // Replace with your exact Axios instance / API route wrapper later
-     const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/signup`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password }),
-      });
+      // 2. DISPATCH REGISTRATION PAYLOAD TO EXPRESS SERVER
+
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/auth/signup`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, password }),
+        },
+      );
 
       const data = await response.json();
 
