@@ -40,7 +40,7 @@ const Signup = () => {
 
       // 2. DISPATCH REGISTRATION PAYLOAD TO YOUR EXPRESS SERVER
       // Replace with your exact Axios instance / API route wrapper later
-      const response = await fetch("http://localhost:5000/api/auth/signup", {
+     const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
