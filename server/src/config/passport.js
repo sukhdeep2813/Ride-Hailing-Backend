@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
-import prisma from './db.js'; 
+import prisma from "./db.js";
 
 // const prisma = new PrismaClient();
 
