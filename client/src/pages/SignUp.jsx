@@ -13,15 +13,23 @@ const Signup = () => {
     name: "",
     email: "",
     password: "",
+    role: "RIDER",
   });
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleRoleToggle = (e) => {
+    setFormData({
+      ...formData,
+      role: e.target.checked ? "DRIVER" : "RIDER",
+    });
+  };
+
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
-    const { name, email, password } = formData;
+    const { name, email, password, role } = formData;
 
     // 1. FRONTEND VALIDATION
     if (!name.trim() || !email.trim() || !password.trim()) {
@@ -45,11 +53,12 @@ const Signup = () => {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, email, password }),
+          body: JSON.stringify({ name, email, password, role }),
         },
       );
 
       const data = await response.json();
+      console.log(data);
 
       if (!response.ok) {
         throw new Error(data.message || "Registration failed.");
@@ -148,6 +157,31 @@ const Signup = () => {
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
             </div>
+          </div>
+
+          {/*checkBox   for type of user  */}
+
+          <div className="pt-2">
+            <label className="flex items-start gap-3 bg-zinc-950/60 border border-white/5 rounded-xl p-4 cursor-pointer hover:bg-zinc-950 transition group select-none">
+              <div className="flex items-center h-5">
+                <input
+                  type="checkbox"
+                  name="role"
+                  checked={formData.role === "DRIVER"}
+                  onChange={handleRoleToggle}
+                  className="w-4 h-4 rounded border-zinc-700 bg-zinc-900 text-[#FF5722] focus:ring-0 accent-[#FF5722] cursor-pointer"
+                />
+              </div>
+              <div className="flex flex-col gap-0.5">
+                <span className="text-sm font-semibold text-zinc-200 group-hover:text-white transition-colors">
+                  Register as a MetroBolt Driver
+                </span>
+                <span className="text-xs text-zinc-500 leading-normal">
+                  Check this box if you intend to offer vehicles, accept
+                  passenger routing requests, and earn fares on the platform.
+                </span>
+              </div>
+            </label>
           </div>
 
           {/* SUBMIT BUTTON */}
