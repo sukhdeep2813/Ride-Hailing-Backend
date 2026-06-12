@@ -17,7 +17,7 @@ export const googleAuthCallback = [
 
 export const SignUpController = async (req, res) => {
   try {
-    const { email, password, name } = req.body;
+    const { email, password, name, role } = req.body;
 
     // 1. Server-side Validation
     if (!email || !password) {
@@ -45,7 +45,7 @@ export const SignUpController = async (req, res) => {
         name: name || email.split("@")[0], // Fallback to name extraction if empty
         // If your schema has a password field, store the hashedPassword here
         password: hashedPassword,
-        role: "RIDER", // Default system assignment
+        role: role,
       },
     });
 
@@ -60,7 +60,12 @@ export const SignUpController = async (req, res) => {
     res.status(201).json({
       message: "User registered successfully",
       token,
-      user: { id: newUser.id, name: newUser.name, email: newUser.email },
+      user: {
+        id: newUser.id,
+        name: newUser.name,
+        email: newUser.email,
+        role: newUser.role,
+      },
     });
   } catch (error) {
     console.error("Signup System Error:", error);
@@ -68,4 +73,62 @@ export const SignUpController = async (req, res) => {
   }
 };
 
-export default { googleAuth, googleAuthCallback, SignUpController };
+export const LoginController = async (req, res) => {
+  try {
+    // Step 1 : Extract email and password from req.body. Before touching the database, check that both fields are non-empty strings and conform to basic structural rules (e.g., verifying the email contains an @ symbol)
+
+    const { email, password } = req.body;
+
+    //validating inputs field
+    if (!email || !password || !email.includes("@")) {
+      return res.status(400).json({ message: "abe jhaatu shi daal na" });
+    }
+
+    //step 2 : Query database ( using the provided email address to check if the user exists.\
+    //Security Rule: Do not check the password yet. First, simply establish if a record exists under that email.
+    const dummyHash =
+      "$2b$10$NxW92.gN8.SVRXyV5G2AJuA5I4Z7YqE0gJ9h8i7j6k5l4m3n2o1p.";
+    const user = await prisma.user.findUnique({
+      where: { email: email.trim().toLowerCase() },
+    });
+
+    const isValidPassword = await bcrypt.compare(
+      password,
+      user ? user.password : dummyHash,
+    );
+
+    if (!user || !isValidPassword) {
+      return res.status(401).json({ message: "Invalid email or password" });
+    }
+
+    const token = jwt.sign(
+      { id: user.id, role: user.role },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" },
+    );
+    /// everything is ok then send response to the frontend
+
+    return res.status(200).json({
+      message: "Successfully Login",
+      token,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
+    });
+  } catch (error) {
+    console.error("Login Server Panic:", error);
+    return res
+      .status(500)
+      .json({ message: "Internal authentication server fault." });
+  }
+};
+
+export default {
+  googleAuth,
+  googleAuthCallback,
+  SignUpController,
+  LoginController,
+};
