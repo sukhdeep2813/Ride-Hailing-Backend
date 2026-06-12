@@ -34,7 +34,7 @@ const Login = () => {
 
       // 2. DISPATCH PAYLOAD TO YOUR EXPRESS SERVER
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/auth/login`,
+        `${import.meta.env.VITE_API_URL}/auth/login`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -97,7 +97,7 @@ const Login = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  placeholder="sukhdeep@nsut.ac.in"
+                  placeholder="example@gmail.com"
                   className="w-full pl-11 pr-4 py-4 bg-white/5 border border-white/10 rounded-xl text-sm focus:outline-none focus:border-[#FF5722] transition-colors"
                 />
               </div>
