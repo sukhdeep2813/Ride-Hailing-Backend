@@ -1,10 +1,12 @@
 import { Map, AdvancedMarker, useMap } from "@vis.gl/react-google-maps";
 import RideBookingWidget from "./RideBookingWidget";
-import { Bell, User, Menu } from "lucide-react";
+import { Bell, User, Menu, LogOut } from "lucide-react";
 import { useLayout } from "../context/LayoutContext";
 
 import MapDirectionsRenderer from "./MapDirectionsRenderer";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { api } from "../api/api";
+import { useNavigate } from "react-router-dom";
 
 const MapStyleController = ({ style }) => {
   const map = useMap();
@@ -18,11 +20,36 @@ const MapStyleController = ({ style }) => {
   return null;
 };
 
+//
+
 const MapContainer = () => {
+  const navigate = useNavigate();
   const nsutCoordinates = { lat: 28.609135, lng: 77.035081 };
 
   //For NavBar
   const { isSearching, routePoints, mapStyle } = useLayout();
+
+  const [profile, setProfile] = useState();
+  const [showDropdown, setShowDropdown] = useState();
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const data = await api.getUserProfile();
+        setProfile(data);
+      } catch (error) {
+        console.error(error.message, "Profile Fetching failed");
+      }
+    };
+    fetchUserData();
+  }, []);
+
+  //For LogOut
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login", { replace: true });
+  };
 
   return (
     <div className="relative w-full h-screen overflow-hidden bg-[#1e1e1e]">
@@ -41,7 +68,7 @@ const MapContainer = () => {
         {/* User Actions */}
         <div className="flex items-center gap-4 md:gap-6">
           <span className="font-semibold text-gray-800 text-sm hidden sm:block">
-            Sukhdeep
+            {profile ? profile.name : "Loading Profile..."}
           </span>
 
           <button className="relative text-gray-600 hover:text-gray-900 transition cursor-pointer">
@@ -50,8 +77,24 @@ const MapContainer = () => {
           </button>
 
           {/* User Avatar */}
-          <div className="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center text-gray-700 font-bold border border-gray-300 cursor-pointer">
-            <User size={18} />
+          <div className="relative">
+            <div
+              onClick={() => setShowDropdown((prev) => !prev)}
+              className="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center text-gray-700 font-bold border border-gray-300 cursor-pointer"
+            >
+              <User size={18} /> {/*dropdown for LogOut  */}
+            </div>
+            {showDropdown && (
+              <div className="absolute right-0 mt-2 w-40 bg-white rounded-xl shadow-xl border border-gray-100 py-1 z-30 animation-fade-in">
+                <button
+                  className="w-full px-4 py-2.5 text-left text-xs font-semibold text-red-600 hover:bg-red-50 flex items-center gap-2 transition-colors cursor-pointer"
+                  onClick={handleLogout}
+                >
+                  <LogOut size={14} />
+                  Log Out
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
