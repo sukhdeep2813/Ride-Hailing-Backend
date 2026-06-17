@@ -37,6 +37,7 @@ const MapContainer = () => {
       try {
         const data = await api.getUserProfile();
         setProfile(data);
+        console.log(data);
       } catch (error) {
         console.error(error.message, "Profile Fetching failed");
       }
