@@ -21,7 +21,7 @@ const fetchWithAuth = async (endpoint, options) => {
   });
 
   //read response '
-  const data = await response.json();
+  const data = await response.json(); //edge case what if we get data empty ??
 
   //error handing
   if (!response.ok) {
@@ -34,5 +34,5 @@ const fetchWithAuth = async (endpoint, options) => {
 
 //exporting api as an object
 export const api = {
-  getUserProfile: () => fetchWithAuth("/auth/Dashboard", { method: "GET" }),
+  getUserProfile: () => fetchWithAuth("/auth/profile", { method: "GET" }),
 };
