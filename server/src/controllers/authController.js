@@ -112,7 +112,7 @@ export const LoginController = async (req, res) => {
       message: "Successfully Login",
       token,
       user: {
-        id: user.id, 
+        id: user.id,
         name: user.name,
         email: user.email,
         role: user.role,
@@ -126,9 +126,37 @@ export const LoginController = async (req, res) => {
   }
 };
 
+export const getUserProfile = async (req, res) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: req.user.id },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        avatar: true,
+        phone: true,
+        rating,
+        createdAt: true,
+      },
+    });
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ message: "User account profile not found." });
+    }
+    res.status(200).json({ user });
+  } catch (error) {
+    console.error("Profile Fetch Error:", error);
+    res.status(500).json({ message: "Internal server retrieval fault." });
+  }
+};
 export default {
   googleAuth,
   googleAuthCallback,
   SignUpController,
   LoginController,
+  getUserProfile,
 };
