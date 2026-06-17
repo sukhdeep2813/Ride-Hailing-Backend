@@ -4,7 +4,12 @@ import {
   googleAuthCallback,
   SignUpController,
   LoginController,
+  getUserProfile,
 } from "../controllers/authController.js";
+
+import { protectedRoute } from "../middlewares/authMiddleware.js";
+
+
 
 const router = express.Router();
 
@@ -14,5 +19,7 @@ router.get("/google/callback", googleAuthCallback);
 
 router.post("/signup", SignUpController); // Implement this controller to handle user registration
 router.post("/login", LoginController); // Implement this controller to handle user login
+
+router.get("/profile", protectedRoute, getUserProfile);
 
 export default router;
