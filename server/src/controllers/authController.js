@@ -137,7 +137,7 @@ export const getUserProfile = async (req, res) => {
         role: true,
         avatar: true,
         phone: true,
-        rating,
+        rating: true,
         createdAt: true,
       },
     });
