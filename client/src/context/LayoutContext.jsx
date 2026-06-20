@@ -1,4 +1,5 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
+import { api } from "../api/api.js";
 
 const LayoutContext = createContext();
 
@@ -7,6 +8,20 @@ export const LayoutProvider = ({ children }) => {
   const [mapCenter, setMapCenter] = useState({ lat: 28.6328, lng: 77.2183 }); // Default to NSUT
   const [routePoints, setRoutePoints] = useState([]); // For storing route points
   const [mapStyle, setMapStyle] = useState("roadmap"); // For toggling map styles
+  const [profile, setProfile] = useState(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const data = await api.getUserProfile();
+        console.log(data.user);
+        setProfile(data.user);
+      } catch (error) {
+        console.error(error.message, "Profile Fetching failed");
+      }
+    };
+    fetchUserData();
+  }, []);
 
   return (
     <LayoutContext.Provider
@@ -19,6 +34,8 @@ export const LayoutProvider = ({ children }) => {
         setRoutePoints,
         mapStyle,
         setMapStyle,
+        profile,
+        setProfile,
       }}
     >
       {children}
@@ -27,4 +44,5 @@ export const LayoutProvider = ({ children }) => {
 };
 
 // Custom hook for easy access across our pages/components
+/* eslint-disable-next-line react-refresh/only-export-components */
 export const useLayout = () => useContext(LayoutContext);
