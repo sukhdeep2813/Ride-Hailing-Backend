@@ -5,7 +5,7 @@ import { useLayout } from "../context/LayoutContext";
 
 import MapDirectionsRenderer from "./MapDirectionsRenderer";
 import { useEffect, useState } from "react";
-import { api } from "../api/api";
+
 import { useNavigate } from "react-router-dom";
 
 const MapStyleController = ({ style }) => {
@@ -29,21 +29,10 @@ const MapContainer = () => {
   //For NavBar
   const { isSearching, routePoints, mapStyle } = useLayout();
 
-  const [profile, setProfile] = useState();
+  const  { profile } = useLayout();
   const [showDropdown, setShowDropdown] = useState();
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const data = await api.getUserProfile();
-        setProfile(data);
-        console.log(data);
-      } catch (error) {
-        console.error(error.message, "Profile Fetching failed");
-      }
-    };
-    fetchUserData();
-  }, []);
+  
 
   //For LogOut
 
