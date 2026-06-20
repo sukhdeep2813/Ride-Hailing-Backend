@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { Pencil, Star, CheckCircle2, ShieldCheck, X } from "lucide-react";
+import { useLayout } from "../context/LayoutContext";
 
 const Profile = () => {
+  const { profile } = useLayout();
+
   // 1. Interactive Form States
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingPhone, setIsEditingPhone] = useState(false);
@@ -37,7 +40,7 @@ const Profile = () => {
           {/* Avatar with layout styling */}
           <div className="relative group">
             <div className="w-24 h-24 md:w-28 md:h-28 rounded-full bg-zinc-800 text-[#FF5722] border border-white/10 flex items-center justify-center text-5xl font-bold mb-4 shadow-xl shadow-black/40">
-              S
+              {profile ? profile.name.charAt(0).toUpperCase() : "M"}
             </div>
             <span className="absolute bottom-4 right-1 bg-emerald-500 rounded-full p-1 border-2 border-[#121212]">
               <CheckCircle2 size={14} className="text-white fill-current" />
@@ -50,7 +53,7 @@ const Profile = () => {
               {fullName.split(" ")[0]}
             </h2>
             <span className="bg-[#FF5722]/10 text-[#FF5722] text-[10px] px-2 py-0.5 rounded-md font-semibold border border-[#FF5722]/20 uppercase tracking-wider">
-              Rider
+              {profile ? profile.role : "User"}
             </span>
           </div>
         </div>
