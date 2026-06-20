@@ -5,6 +5,7 @@ const BASE_URL = import.meta.env.VITE_API_URL;
 const fetchWithAuth = async (endpoint, options) => {
   //  get token  form localStorage
   const token = localStorage.getItem("token");
+
   //add headers
   const headers = {
     "Content-Type": "application/json",
