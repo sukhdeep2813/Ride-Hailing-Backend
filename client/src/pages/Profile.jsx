@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Pencil, Star, CheckCircle2, ShieldCheck, X } from "lucide-react";
 import { useLayout } from "../context/LayoutContext";
 import { api } from "../api/api";
