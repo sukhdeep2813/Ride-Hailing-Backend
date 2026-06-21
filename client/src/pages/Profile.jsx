@@ -14,13 +14,6 @@ const Profile = () => {
   const [fullName, setFullName] = useState(() => profile?.name || "");
   const [phone, setPhone] = useState(() => profile?.phone || "+91 XXXXX XXXXX");
 
-  useEffect(() => {
-    if (profile) {
-      setFullName(profile.name || "");
-      setPhone(profile.phone || "+91 XXXXX XXXXX");
-    }
-  }, [profile]);
-
   const handleCancel = (field) => {
     switch (field) {
       case "name":
@@ -63,7 +56,7 @@ const Profile = () => {
       }
 
       toast.success(
-        `Hey ${response.user.name.split(" ")[0]}, profile updated successfully!`,
+        `Hi ${response.user.name.split(" ")[0]}, profile updated successfully!`,
         {
           duration: 4000,
           position: "top-right",
