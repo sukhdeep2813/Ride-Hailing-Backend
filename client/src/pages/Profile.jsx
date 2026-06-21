@@ -101,7 +101,7 @@ const Profile = () => {
   return (
     <div className="w-full min-h-screen bg-black text-white p-4 md:p-8">
       {/* Main Container Wrapper */}
-      <div className="max-w-5xl mx-auto bg-gradient-to-br from-[#121212] to-black border border-white/10 rounded-3xl p-6 md:p-8 relative overflow-hidden">
+      <div className="max-w-5xl mx-auto bg-linear-to-br from-[#121212] to-black border border-white/10 rounded-3xl p-6 md:p-8 relative overflow-hidden">
         {/* Decorative Badge Element */}
         <div className="absolute top-0 right-0 p-8 opacity-5 hidden md:block">
           <ShieldCheck size={180} />
@@ -145,7 +145,7 @@ const Profile = () => {
 
             <div className="space-y-5">
               {/* Full Name */}
-              <div className="flex items-center justify-between gap-4 bg-zinc-900/40 p-3 rounded-xl border border-white/[0.03]">
+              <div className="flex items-center justify-between gap-4 bg-zinc-900/40 p-3 rounded-xl border border-white/3">
                 <div className="flex-1">
                   <p className="text-zinc-500 text-xs font-semibold uppercase tracking-wider mb-1">
                     Full Name
@@ -176,7 +176,7 @@ const Profile = () => {
               </div>
 
               {/* Phone Field */}
-              <div className="flex items-center justify-between gap-4 bg-zinc-900/40 p-3 rounded-xl border border-white/[0.03]">
+              <div className="flex items-center justify-between gap-4 bg-zinc-900/40 p-3 rounded-xl border border-white/3">
                 <div className="flex-1">
                   <p className="text-zinc-500 text-xs font-semibold uppercase tracking-wider mb-1">
                     Phone
@@ -207,7 +207,7 @@ const Profile = () => {
               </div>
 
               {/* Email (Read Only Endpoint Connection) */}
-              <div className="bg-zinc-900/40 p-3 rounded-xl border border-white/[0.03]">
+              <div className="bg-zinc-900/40 p-3 rounded-xl border border-white/3">
                 <p className="text-zinc-500 text-xs font-semibold uppercase tracking-wider mb-1">
                   Email
                 </p>
