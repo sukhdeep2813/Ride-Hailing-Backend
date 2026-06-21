@@ -1,24 +1,108 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Pencil, Star, CheckCircle2, ShieldCheck, X } from "lucide-react";
 import { useLayout } from "../context/LayoutContext";
+import { api } from "../api/api";
+import { toast } from "react-hot-toast";
 
 const Profile = () => {
-  const { profile } = useLayout();
+  const { profile, setProfile } = useLayout();
 
   // 1. Interactive Form States
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingPhone, setIsEditingPhone] = useState(false);
 
-  const [fullName, setFullName] = useState("Sukhdeep");
-  const [phone, setPhone] = useState("+91 98765 43210");
-  const [address, setAddress] = useState("Dwarka Sector 3, New Delhi");
-  const [isEditingAddress, setIsEditingAddress] = useState(false);
+  const [fullName, setFullName] = useState(() => profile?.name || "");
+  const [phone, setPhone] = useState(() => profile?.phone || "+91 XXXXX XXXXX");
 
-  const handleSave = () => {
+  useEffect(() => {
+    if (profile) {
+      setFullName(profile.name || "");
+      setPhone(profile.phone || "+91 XXXXX XXXXX");
+    }
+  }, [profile]);
+
+  const handleCancel = (field) => {
+    switch (field) {
+      case "name":
+        setIsEditingName(false);
+        setFullName(profile.name);
+        break;
+
+      case "phone":
+        setIsEditingPhone(false);
+        setPhone(profile?.phone || "+91 XXXXX XXXXX");
+        break;
+
+      case "all":
+        setIsEditingName(false);
+        setIsEditingPhone(false);
+
+        setFullName(profile?.name || "");
+        setPhone(profile?.phone || "+91 XXXXX XXXXX");
+
+        break;
+    }
+  };
+
+  const handleSave = async () => {
     setIsEditingName(false);
     setIsEditingPhone(false);
-    setIsEditingAddress(false);
-    console.log("Saving to Prisma Backend...", { fullName, phone, address });
+
+    const updatedData = {
+      name: fullName,
+      phone: phone,
+    };
+
+    try {
+      console.log("Saving to Prisma Backend...", updatedData);
+
+      const response = await api.updateUserProfile(updatedData);
+
+      if (setProfile && response.user) {
+        setProfile(response.user);
+      }
+
+      toast.success(
+        `Hey ${response.user.name.split(" ")[0]}, profile updated successfully!`,
+        {
+          duration: 4000,
+          position: "top-right",
+          style: {
+            background: "#121212",
+            color: "#fff",
+            border: "1px solid rgba(255, 255, 255, 0.1)",
+            borderRadius: "14px",
+            fontSize: "14px",
+            fontWeight: "500",
+            padding: "12px 24px",
+          },
+          iconTheme: {
+            primary: "#228036",
+            secondary: "#fff",
+          },
+        },
+      );
+    } catch (error) {
+      console.error(error.message, "Profile sync faild");
+      toast.error("Could not update profile changes.", {
+        duration: 4000,
+        position: "top-right",
+        style: {
+          background: "#1c1212",
+          color: "#ff5252",
+          border: "1px solid rgba(255, 82, 82, 0.15)",
+          borderRadius: "14px",
+          fontSize: "14px",
+          fontWeight: "500",
+          padding: "12px 24px",
+        },
+      });
+
+      if (profile) {
+        setFullName(profile.name || "");
+        setPhone(profile.phone || "");
+      }
+    }
   };
 
   return (
@@ -87,8 +171,12 @@ const Profile = () => {
                   )}
                 </div>
                 <button
-                  onClick={() => setIsEditingName(!isEditingName)}
-                  className="text-zinc-500 hover:text-orange-400 transition p-1"
+                  onClick={() =>
+                    isEditingName
+                      ? handleCancel("name")
+                      : setIsEditingName(true)
+                  }
+                  className="text-zinc-500 hover:text-orange-400 transition p-1 cursor-pointer"
                 >
                   {isEditingName ? <X size={18} /> : <Pencil size={18} />}
                 </button>
@@ -114,8 +202,12 @@ const Profile = () => {
                   )}
                 </div>
                 <button
-                  onClick={() => setIsEditingPhone(!isEditingPhone)}
-                  className="text-zinc-500 hover:text-orange-400 transition p-1"
+                  onClick={() =>
+                    isEditingPhone
+                      ? handleCancel("phone")
+                      : setIsEditingPhone(true)
+                  }
+                  className="text-zinc-500 hover:text-orange-400 transition p-1 cursor-pointer"
                 >
                   {isEditingPhone ? <X size={18} /> : <Pencil size={18} />}
                 </button>
@@ -127,35 +219,8 @@ const Profile = () => {
                   Email
                 </p>
                 <p className="text-base md:text-lg font-medium text-zinc-400 break-all">
-                  sukhdeep.singh@nsut.ac.in
+                  {profile?.email ? profile.email : "example.com"}
                 </p>
-              </div>
-
-              {/* Address Field */}
-              <div className="flex items-center justify-between gap-4 bg-zinc-900/40 p-3 rounded-xl border border-white/[0.03]">
-                <div className="flex-1">
-                  <p className="text-zinc-500 text-xs font-semibold uppercase tracking-wider mb-1">
-                    Home Address
-                  </p>
-                  {isEditingAddress ? (
-                    <input
-                      type="text"
-                      value={address}
-                      onChange={(e) => setAddress(e.target.value)}
-                      className="bg-zinc-800 border border-orange-500/50 rounded px-2 py-1 text-base w-full focus:outline-none"
-                    />
-                  ) : (
-                    <p className="text-base md:text-lg font-medium text-zinc-200">
-                      {address}
-                    </p>
-                  )}
-                </div>
-                <button
-                  onClick={() => setIsEditingAddress(!isEditingAddress)}
-                  className="text-zinc-500 hover:text-orange-400 transition p-1"
-                >
-                  {isEditingAddress ? <X size={18} /> : <Pencil size={18} />}
-                </button>
               </div>
             </div>
           </div>
@@ -204,7 +269,13 @@ const Profile = () => {
                   Joined MetroBolt
                 </p>
                 <p className="text-base font-semibold text-zinc-300 mt-0.5">
-                  Jan 15, 2025
+                  {profile?.createdAt
+                    ? new Date(profile.createdAt).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      })
+                    : "Fetching registry metadata..."}
                 </p>
               </div>
             </div>
@@ -232,7 +303,9 @@ const Profile = () => {
 
             <div className="flex items-baseline gap-3 pt-2">
               <span className="text-4xl font-black text-amber-400 tracking-tight">
-                4.8
+                {profile?.rating !== undefined
+                  ? profile.rating.toFixed(1)
+                  : "5.0"}
               </span>
               <span className="text-sm text-zinc-400 font-medium">Stars</span>
 
@@ -251,17 +324,15 @@ const Profile = () => {
         <div className="flex flex-col sm:flex-row gap-4 items-center">
           <button
             onClick={handleSave}
-            className="w-full sm:flex-1 bg-[#FF5722] hover:bg-[#E64A19] shadow-lg shadow-orange-600/10 active:scale-[0.99] transition-all py-4 rounded-xl text-base font-bold tracking-wide"
+            className="w-full sm:flex-1 cursor-pointer  bg-[#FF5722] hover:bg-[#E64A19] shadow-lg shadow-orange-600/10 active:scale-[0.99] transition-all py-4 rounded-xl text-base font-bold tracking-wide"
           >
             Save Changes
           </button>
           <button
             onClick={() => {
-              setIsEditingName(false);
-              setIsEditingPhone(false);
-              setIsEditingAddress(false);
+              handleCancel("all");
             }}
-            className="w-full sm:w-32 bg-zinc-900 hover:bg-zinc-800 border border-white/10 transition-all py-4 rounded-xl text-base font-semibold"
+            className="w-full sm:w-32 bg-zinc-900 hover:bg-zinc-800 border border-white/10 transition-all py-4 rounded-xl text-base font-semibold cursor-pointer"
           >
             Cancel
           </button>
