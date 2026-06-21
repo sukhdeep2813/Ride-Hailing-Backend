@@ -153,10 +153,44 @@ export const getUserProfile = async (req, res) => {
     res.status(500).json({ message: "Internal server retrieval fault." });
   }
 };
+
+export const updateUserProfile = async (req, res) => {
+  try {
+    const { name, phone } = req.body;
+
+    const updatedUser = await prisma.user.update({
+      where: { id: req.user.id },
+      data: {
+        name: name?.trim(),
+        phone: phone?.trim(),
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        phone: true,
+        rating: true,
+        createdAt: true,
+      },
+    });
+
+    return res.status(200).json({
+      message: "Profile updated completely inside database.",
+      user: updatedUser,
+    });
+  } catch (error) {
+    console.error("Database Write Error during Profile Update:", error.message);
+    return res
+      .status(500)
+      .json({ message: "Internal server data modification error." });
+  }
+};
 export default {
   googleAuth,
   googleAuthCallback,
   SignUpController,
   LoginController,
   getUserProfile,
+  updateUserProfile,
 };
