@@ -29,10 +29,8 @@ const MapContainer = () => {
   //For NavBar
   const { isSearching, routePoints, mapStyle } = useLayout();
 
-  const  { profile } = useLayout();
-  const [showDropdown, setShowDropdown] = useState();
-
-  
+  const { profile } = useLayout();
+  const [showDropdown, setShowDropdown] = useState(false);
 
   //For LogOut
 
@@ -42,10 +40,10 @@ const MapContainer = () => {
   };
 
   return (
-    <div className="relative w-full h-screen overflow-hidden bg-[#1e1e1e]">
+    <div className="relative w-full h-full overflow-hidden bg-[#1e1e1e]">
       {/* 1. TOP BAR */}
       <div
-        className={`absolute top-0 left-0 w-full h-16 bg-white/70 backdrop-blur-xl border-b border-white/20 rounded-b-2xl md:rounded-b-3xl px-4 md:px-8 flex items-center justify-between z-20 shadow-lg transition-transform duration-500 ease-in-out ${isSearching ? "-translate-y-full" : "translate-y-0"}`}
+        className={`absolute top-0 left-0 w-full h-16 bg-white/18 backdrop-blur-xl border-b border-white/20 rounded-b-2xl md:rounded-b-3xl px-4 md:px-8 flex items-center justify-between z-20 shadow-lg transition-transform duration-500 ease-in-out ${isSearching ? "-translate-y-full" : "translate-y-0"}`}
       >
         <button className="md:hidden text-gray-700 hover:text-gray-900 cursor-pointer">
           <Menu size={24} />
@@ -107,15 +105,26 @@ const MapContainer = () => {
 
       {/* 3. LIVE GOOGLE MAPS LAYER */}
 
-      <div className="absolute inset-0 w-full h-full z-0">
+      <div className="absolute inset-0 z-0 w-full h-full block overflow-hidden">
         <Map
           defaultZoom={15}
           defaultCenter={nsutCoordinates}
           gestureHandling={"greedy"}
           disableDefaultUI={true}
           // FOR ADVANCED MARKERS: Replace with your actual Google Cloud Map ID
-          mapIdStyle={mapStyle}
+          mapTypeId={mapStyle}
           mapId={"f4bf5c8f8c5e29847dc72a5f"}
+          minZoom={3}
+          maxZoom={20}
+          restriction={{
+            latLngBounds: {
+              north: 85,
+              south: -85,
+              west: -180,
+              east: 180,
+            },
+            strictBounds: true,
+          }}
         >
           {isSearching && routePoints.pickup && routePoints.destination && (
             <MapDirectionsRenderer
