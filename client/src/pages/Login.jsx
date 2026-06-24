@@ -51,7 +51,7 @@ const Login = () => {
       // 3. PERSIST STATE & MOVE TO ENVIRONMENT
       localStorage.setItem("token", data.token);
       toast.success("Welcome back to MetroBolt!", { id: "login" });
-      navigate("/dashboard");
+      navigate("/dashboard", { replace: true });
     } catch (error) {
       toast.error(error.message || "Connection refused. Try again later.", {
         id: "login",
