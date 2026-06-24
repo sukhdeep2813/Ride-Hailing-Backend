@@ -70,7 +70,7 @@ const Signup = () => {
       toast.success(`Welcome to MetroBolt, ${name}!`, { id: "signup" });
 
       // 4. ROUTE STRAIGHT INTO THE CORE MAP ENVIRONMENT
-      navigate("/dashboard");
+      navigate("/dashboard", { replace: true });
     } catch (error) {
       toast.error(error.message || "Network error. Please try again later.", {
         id: "signup",
