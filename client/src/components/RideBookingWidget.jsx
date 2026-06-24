@@ -12,6 +12,7 @@ import { useLayout } from "../context/LayoutContext";
 import { usePlaceAutocomplete } from "../hooks/usePlaceAutocomplete";
 import { toast } from "react-hot-toast";
 import { getPlaceString } from "../utils/googlePlacesHelper";
+import { PlaceExtractorForPickupAnsDestination } from "../utils/placesExtracter";
 
 const RideBookingWidget = () => {
   const { setIsSearching, setRoutePoints } = useLayout();
@@ -95,10 +96,13 @@ const RideBookingWidget = () => {
   const handleFormSubmit = (e) => {
     if (e) e.preventDefault();
 
-    console.log("pickup =", pickup);
-    console.log("type =", typeof pickup);
+    const finalPickup = PlaceExtractorForPickupAnsDestination(pickup);
+    const finalDestination = PlaceExtractorForPickupAnsDestination(destination);
 
-    if (!pickup.oh.Ei[0].trim() || !destination.oh.Ei[0].trim().trim()) {
+    console.log("finalPickup =", finalPickup);
+    console.log("type =", typeof finalPickup);
+
+    if (!finalPickup.trim() || !finalDestination.trim().trim()) {
       toast.error("Please enter both pickup and destination locations.", {
         style: {
           background: "#1c1c1e",
@@ -111,8 +115,8 @@ const RideBookingWidget = () => {
     }
 
     setRoutePoints({
-      pickup: pickup.toLowerCase().trim(),
-      destination: destination.toLowerCase().trim(),
+      pickup: finalPickup.toLowerCase().trim(),
+      destination: finalDestination.toLowerCase().trim(),
     });
 
     toast.loading("Plotting optimal ride path...", { duration: 1500 });
@@ -120,6 +124,13 @@ const RideBookingWidget = () => {
     setTimeout(() => {
       setIsSearching(true);
     }, 1000);
+
+    console.log("Submitting Ride Request to Backend:", {
+      pickup: finalPickup,
+      destination: finalDestination,
+      selectedVehicle,
+      paymentMethod,
+    });
   };
 
   return (
