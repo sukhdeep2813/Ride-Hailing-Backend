@@ -14,7 +14,7 @@ export const LayoutProvider = ({ children }) => {
     const fetchUserData = async () => {
       try {
         const data = await api.getUserProfile();
-        console.log(data.user);
+
         setProfile(data.user);
       } catch (error) {
         console.error(error.message, "Profile Fetching failed");
