@@ -11,6 +11,7 @@ import {
 import { useLayout } from "../context/LayoutContext";
 import { usePlaceAutocomplete } from "../hooks/usePlaceAutocomplete";
 import { toast } from "react-hot-toast";
+import { getPlaceString } from "../utils/googlePlacesHelper";
 
 const RideBookingWidget = () => {
   const { setIsSearching, setRoutePoints } = useLayout();
@@ -119,13 +120,6 @@ const RideBookingWidget = () => {
     setTimeout(() => {
       setIsSearching(true);
     }, 1000);
-
-    console.log("Submitting Ride Request:", {
-      pickup,
-      destination,
-      selectedVehicle,
-      paymentMethod,
-    });
   };
 
   return (
@@ -154,15 +148,8 @@ const RideBookingWidget = () => {
           {pickupAutocomplete.predictions.length > 0 && (
             <ul className="absolute top-full left-0 w-full bg-white border border-zinc-200 mt-1 rounded-xl shadow-2xl z-50 max-h-52 overflow-y-auto overflow-x-hidden divide-y divide-zinc-100">
               {pickupAutocomplete.predictions.map((item, index) => {
-                const placeText =
-                  item.text?.text ||
-                  (typeof item.text === "string" ? item.text : "") ||
-                  item.placePrediction?.text ||
-                  "Unknown Location";
-                const placeId =
-                  item.place_id || item.placePrediction?.placeId || index;
-
-                console.log(placeText.oh.Ei[0]);
+                const placeText = getPlaceString(item);
+                const placeId = item.placePrediction?.placeId || index;
 
                 return (
                   <li
@@ -207,15 +194,9 @@ const RideBookingWidget = () => {
             <ul className="absolute top-full left-0 w-full bg-white border border-zinc-200 mt-1 rounded-xl shadow-2xl z-50 max-h-52 overflow-y-auto overflow-x-hidden divide-y divide-zinc-100">
               {destAutocomplete.predictions.map((item, index) => {
                 // 💡 MARKED CHANGE #3: Updated parsing variables to point to placePrediction wrapper properties safely
-                const placeText =
-                  item.text?.text ||
-                  (typeof item.text === "string" ? item.text : "") ||
-                  item.placePrediction?.text ||
-                  "Unknown Location";
+                const placeText = getPlaceString(item);
                 const placeId =
                   item.place_id || item.placePrediction?.placeId || index;
-
-                console.log(placeText);
 
                 return (
                   <li
