@@ -99,9 +99,6 @@ const RideBookingWidget = () => {
     const finalPickup = PlaceExtractorForPickupAnsDestination(pickup);
     const finalDestination = PlaceExtractorForPickupAnsDestination(destination);
 
-    console.log("finalPickup =", finalPickup);
-    console.log("type =", typeof finalPickup);
-
     if (!finalPickup.trim() || !finalDestination.trim().trim()) {
       toast.error("Please enter both pickup and destination locations.", {
         style: {
@@ -124,13 +121,6 @@ const RideBookingWidget = () => {
     setTimeout(() => {
       setIsSearching(true);
     }, 1000);
-
-    console.log("Submitting Ride Request to Backend:", {
-      pickup: finalPickup,
-      destination: finalDestination,
-      selectedVehicle,
-      paymentMethod,
-    });
   };
 
   return (
