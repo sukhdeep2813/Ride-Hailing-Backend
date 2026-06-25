@@ -5,7 +5,7 @@ export const PlaceExtractorForPickupAnsDestination = (inputObj) => {
     for (const key in inputObj) {
       const subProperty = inputObj[key];
 
-      if (subProperty && subProperty === "object") {
+      if (subProperty && typeof subProperty === "object") {
         if (
           Array.isArray(subProperty.Ei) &&
           typeof subProperty.Ei[0] === "string"
