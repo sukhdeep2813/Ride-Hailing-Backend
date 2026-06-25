@@ -9,6 +9,8 @@ export const LayoutProvider = ({ children }) => {
   const [routePoints, setRoutePoints] = useState([]); // For storing route points
   const [mapStyle, setMapStyle] = useState("roadmap"); // For toggling map styles
   const [profile, setProfile] = useState(null);
+  const [routeMetrics, setRouteMetrics] = useState(null);
+
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -36,6 +38,8 @@ export const LayoutProvider = ({ children }) => {
         setMapStyle,
         profile,
         setProfile,
+        routeMetrics, 
+        setRouteMetrics
       }}
     >
       {children}
