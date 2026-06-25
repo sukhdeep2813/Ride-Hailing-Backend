@@ -62,7 +62,7 @@ const History = () => {
 
       <div className="overflow-x-auto rounded-2xl border border-white/10"></div>
 
-      <div className="min-w-[1000px] bg-linear-to-br from-[#151515] to-black">
+      <div className="min-w-250 bg-linear-to-br from-[#151515] to-black">
         <div className="grid grid-cols-6 px-6 py-5 border-b border-white/10 text-sm font-semibold text-zinc-300 ml-6">
           <p>Date & Time</p>
           <p>Pickup Location</p>
@@ -75,7 +75,7 @@ const History = () => {
         {rideHistory.map((ride, index) => (
           <div
             key={index}
-            className="border-b border-white/10 hover:bg-white/[0.03] transition"
+            className="border-b border-white/10 hover:bg-white/3 transition"
           >
             <div className="grid grid-cols-6 items-center px-6 py-5 gap-4 ">
               {/* Date */}
