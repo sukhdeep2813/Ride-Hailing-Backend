@@ -4,6 +4,7 @@ import cors from "cors";
 import passport from "./config/passport.js";
 import session from "express-session";
 import authRoute from "./routes/authRoute.js";
+import fareRoute from "./routes/fareRoute.js";
 
 dotenv.config();
 
@@ -32,6 +33,7 @@ app.use(
 );
 
 app.use("/api/auth", authRoute);
+app.use("/api/fare", fareRoute);
 
 app.get("/", (req, res) => {
   res.send("Backend is Working");
