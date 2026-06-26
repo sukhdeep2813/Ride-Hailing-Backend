@@ -36,9 +36,16 @@ const fetchWithAuth = async (endpoint, options) => {
 //exporting api as an object
 export const api = {
   getUserProfile: () => fetchWithAuth("/auth/profile", { method: "GET" }),
+
   updateUserProfile: (updatedFields) =>
     fetchWithAuth("/auth/profile/update", {
       method: "PUT",
       body: JSON.stringify(updatedFields),
+    }),
+
+  calculateRidesFares: (metrics) =>
+    fetchWithAuth("fare/calculate", {
+      method: "POST",
+      body: JSON.stringify(metrics),
     }),
 };
