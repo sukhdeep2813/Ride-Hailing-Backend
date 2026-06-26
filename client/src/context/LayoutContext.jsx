@@ -5,12 +5,12 @@ const LayoutContext = createContext();
 
 export const LayoutProvider = ({ children }) => {
   const [isSearching, setIsSearching] = useState(false);
+  const [isVehicleSelected, setIsVehicleSelected] = useState(false);
   const [mapCenter, setMapCenter] = useState({ lat: 28.6328, lng: 77.2183 }); // Default to NSUT
   const [routePoints, setRoutePoints] = useState([]); // For storing route points
   const [mapStyle, setMapStyle] = useState("roadmap"); // For toggling map styles
   const [profile, setProfile] = useState(null);
   const [routeMetrics, setRouteMetrics] = useState(null);
-
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -30,6 +30,8 @@ export const LayoutProvider = ({ children }) => {
       value={{
         isSearching,
         setIsSearching,
+        isVehicleSelected,
+        setIsVehicleSelected,
         mapCenter,
         setMapCenter,
         routePoints,
@@ -38,8 +40,8 @@ export const LayoutProvider = ({ children }) => {
         setMapStyle,
         profile,
         setProfile,
-        routeMetrics, 
-        setRouteMetrics
+        routeMetrics,
+        setRouteMetrics,
       }}
     >
       {children}
