@@ -22,15 +22,15 @@ export const calculateFare = async (req, res) => {
       const rate = vehicleRates[id];
 
       const fareAmount =
-        rate.base + distance * rate.perKm + durationMin * rate.perMin;
+        rate.base + distanceKm * rate.perKm + durationMin * rate.perMin;
 
-      return { id, name, fareAmount, time: `${durationMin} min` };
+      return { id, name: rate.name, fareAmount, time: `${durationMin} min` };
     });
     return res.status(200).json({
       success: true,
       distanceKm,
       durationMin,
-      fares: calculatedOptions,
+      fares: calculateOption,
     });
   } catch (error) {
     console.error("Backend Fare Calculation Error:", error);
