@@ -56,8 +56,6 @@ export const SignUpController = async (req, res) => {
       { expiresIn: "7d" },
     );
 
-    console.log("RAW TOKEN STRING HITTING MIDDLEWARE: -->" + token + "<--");
-
     // Return the payload back to your SignUp.jsx handler
     res.status(201).json({
       message: "User registered successfully",
