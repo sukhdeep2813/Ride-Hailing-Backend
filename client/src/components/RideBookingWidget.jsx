@@ -13,9 +13,11 @@ import { usePlaceAutocomplete } from "../hooks/usePlaceAutocomplete";
 import { toast } from "react-hot-toast";
 import { getPlaceString } from "../utils/googlePlacesHelper";
 import { PlaceExtractorForPickupAnsDestination } from "../utils/placesExtracter";
+import { api } from "../api/api.js";
+import { useEffect } from "react";
 
 const RideBookingWidget = () => {
-  const { setIsSearching, setRoutePoints } = useLayout();
+  const { setIsSearching, setRoutePoints, routeMetrics } = useLayout();
   const [pickup, setPickup] = useState("");
   const [destination, setDestination] = useState("");
 
@@ -25,50 +27,46 @@ const RideBookingWidget = () => {
   const pickupAutocomplete = usePlaceAutocomplete();
   const destAutocomplete = usePlaceAutocomplete();
 
-  const vehicleOptions = [
-    {
-      id: "BoltBike",
-      name: "BoltBike",
-      price: "85",
-      time: "4 min",
-      icon: Bike,
-    },
-    {
-      id: "BoltMini",
-      name: "BoltMini",
-      price: "160",
-      time: "6 min",
-      icon: Car,
-    },
-    {
-      id: "BoltSedan",
-      name: "BoltSedan",
-      price: "230",
-      time: "7 min",
-      icon: Car,
-    },
-    {
-      id: "BoltSuite",
-      name: "BoltSuite",
-      price: "130",
-      time: "4 min",
-      icon: Car,
-    },
-    {
-      id: "BoltMinini",
-      name: "BoltMinini",
-      price: "160",
-      time: "6 min",
-      icon: Car,
-    },
-    {
-      id: "BoltSedan2",
-      name: "BoltSedan",
-      price: "230",
-      time: "7 min",
-      icon: Car,
-    },
-  ];
+  const [faresList, setFaresList] = useState([]);
+  const [isLoadingFares, setIsLoadingFares] = useState(false);
+
+  const iconMap = {
+    BoltBike: Bike,
+    BoltMini: Car,
+    BoltSedan: Car,
+    BoltSuite: Car,
+    BoltMinini: Car,
+    BoltSedan2: Car,
+  };
+
+  useEffect(() => {
+    if (!routeMetrics) {
+      setFaresList([]);
+      return;
+    }
+
+    const fetchFares = async () => {
+      try {
+        setIsLoadingFares(true);
+        const response = await api.calculateRidesFares({
+          distanceKm: routeMetrics.distanceKm,
+          durationMin: routeMetrics.durationMin,
+        });
+
+        if (response.success && response.fares) {
+          setFaresList(response.fares);
+        }
+      } catch (error) {
+        console.error(
+          "Failed fetching secure calculations from backend:",
+          error,
+        );
+        toast.error("Error computing platform handling fares.");
+      } finally {
+        setIsLoadingFares(false);
+      }
+    };
+  }, [routeMetrics]);
 
   const handleInputChange = (text, type) => {
     if (type === "pickup") {
@@ -221,38 +219,61 @@ const RideBookingWidget = () => {
         <span className="text-xs font-bold text-zinc-500 uppercase tracking-wider block mb-2">
           Vehicle Category
         </span>
-        <div className="grid grid-cols-3 gap-2.5 max-h-56 overflow-y-auto pr-1">
-          {vehicleOptions.map((v) => {
-            const isSelected = selectedVehicle === v.id;
-            return (
+        {isLoadingFares ? (
+          // 💡 SKELETON PLACEHOLDER WHILE FARES ARE STREAMING OVER NETWORKS
+          <div className="grid grid-cols-3 gap-2.5 py-2 text-center select-none">
+            {[1, 2, 3].map((n) => (
               <div
-                key={v.id}
-                onClick={() => setSelectedVehicle(v.id)}
-                className={`flex flex-col items-center justify-center p-2.5 rounded-xl border text-center cursor-pointer transition-all select-none ${
-                  isSelected
-                    ? "bg-[#FF5722] border-[#FF5722] text-white shadow-md shadow-orange-500/20"
-                    : "bg-white border-zinc-200 text-zinc-800 hover:border-zinc-300"
-                }`}
+                key={n}
+                className="bg-zinc-50 border border-zinc-100 p-3 rounded-xl animate-pulse flex flex-col items-center space-y-2"
               >
-                <v.icon
-                  size={22}
-                  className={`${isSelected ? "text-white" : "text-zinc-900"}`}
-                />
-                <span className="text-xs font-bold mt-1 tracking-tight truncate w-full">
-                  {v.name}
-                </span>
-                <span className="text-sm font-extrabold mt-0.5">
-                  ₹{v.price}
-                </span>
-                <span
-                  className={`text-[10px] mt-0.5 ${isSelected ? "text-orange-100" : "text-zinc-400"}`}
-                >
-                  {v.time}
-                </span>
+                <div className="w-6 h-6 bg-zinc-200 rounded-full" />
+                <div className="w-14 h-3 bg-zinc-200 rounded" />
+                <div className="w-10 h-4 bg-zinc-200 rounded animate-shimmer" />
               </div>
-            );
-          })}
-        </div>
+            ))}
+          </div>
+        ) : faresList.length > 0 ? (
+          // 💡 RENDER DYNAMIC CALCULATED PRICING SLOTS RECEIVED FROM EXPRESS
+          <div className="grid grid-cols-3 gap-2.5 max-h-56 overflow-y-auto pr-1">
+            {faresList.map((v) => {
+              const isSelected = selectedVehicle === v.id;
+              const VehicleIcon = iconMap[v.id] || Car;
+              return (
+                <div
+                  key={v.id}
+                  onClick={() => setSelectedVehicle(v.id)}
+                  className={`flex flex-col items-center justify-center p-2.5 rounded-xl border text-center cursor-pointer transition-all select-none ${
+                    isSelected
+                      ? "bg-[#FF5722] border-[#FF5722] text-white shadow-md shadow-orange-500/20"
+                      : "bg-white border-zinc-200 text-zinc-800 hover:border-zinc-300"
+                  }`}
+                >
+                  <VehicleIcon
+                    size={22}
+                    className={`${isSelected ? "text-white" : "text-zinc-900"}`}
+                  />
+                  <span className="text-xs font-bold mt-1 tracking-tight truncate w-full">
+                    {v.name}
+                  </span>
+                  <span className="text-sm font-extrabold mt-0.5">
+                    ₹{v.price}
+                  </span>
+                  <span
+                    className={`text-[10px] mt-0.5 ${isSelected ? "text-orange-100" : "text-zinc-400"}`}
+                  >
+                    {v.time}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          // 💡 DEFAULT FILLER FALLBACK CONTEXT STATE PRIOR TO INPUT VALIDATIONS
+          <div className="text-center p-4 border border-dashed border-zinc-200 rounded-xl bg-zinc-50 text-xs font-medium text-zinc-400">
+            Select route path to display dynamic vehicle variant options.
+          </div>
+        )}
       </div>
 
       {/* --- SECTION 3: PAYMENT METHOD BAR --- */}
