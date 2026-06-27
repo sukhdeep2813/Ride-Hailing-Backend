@@ -15,9 +15,11 @@ import { getPlaceString } from "../utils/googlePlacesHelper";
 import { PlaceExtractorForPickupAnsDestination } from "../utils/placesExtracter";
 import { api } from "../api/api.js";
 import { useEffect } from "react";
+import { formateTime } from "../utils/timeFormatter.js";
 
 const RideBookingWidget = () => {
-  const { setIsSearching, setRoutePoints, routeMetrics } = useLayout();
+  const { setIsSearching, setRoutePoints, routeMetrics, setIsVehicleSelected } =
+    useLayout();
   const [pickup, setPickup] = useState("");
   const [destination, setDestination] = useState("");
 
@@ -66,6 +68,8 @@ const RideBookingWidget = () => {
         setIsLoadingFares(false);
       }
     };
+
+    fetchFares();
   }, [routeMetrics]);
 
   const handleInputChange = (text, type) => {
@@ -94,30 +98,41 @@ const RideBookingWidget = () => {
   const handleFormSubmit = (e) => {
     if (e) e.preventDefault();
 
-    const finalPickup = PlaceExtractorForPickupAnsDestination(pickup);
-    const finalDestination = PlaceExtractorForPickupAnsDestination(destination);
+    // 1️⃣ STAGE 1: If map metrics haven't loaded yet, fetch the route path line
+    if (!routeMetrics) {
+      const finalPickup = PlaceExtractorForPickupAnsDestination(pickup);
+      const finalDestination =
+        PlaceExtractorForPickupAnsDestination(destination);
 
-    if (!finalPickup.trim() || !finalDestination.trim().trim()) {
-      toast.error("Please enter both pickup and destination locations.", {
-        style: {
-          background: "#1c1c1e",
-          color: "#fff",
-          borderRadius: "12px",
-          border: "1px solid rgba(255,255,255,0.1)",
-        },
+      if (!finalPickup.trim() || !finalDestination.trim()) {
+        toast.error("Please enter both pickup and destination locations.", {
+          style: {
+            background: "#1c1c1e",
+            color: "#fff",
+            borderRadius: "12px",
+            border: "1px solid rgba(255,255,255,0.1)",
+          },
+        });
+        return;
+      }
+
+      setRoutePoints({
+        pickup: finalPickup.toLowerCase().trim(),
+        destination: finalDestination.toLowerCase().trim(),
       });
-      return;
+
+      setIsSearching(true); // Mounts the map renderer lines
+      toast.loading("Plotting optimal ride path...", { duration: 1500 });
+      return; // 💡 Stop here so they can choose their car option!
     }
 
-    setRoutePoints({
-      pickup: finalPickup.toLowerCase().trim(),
-      destination: finalDestination.toLowerCase().trim(),
+    // 2️⃣ STAGE 2: Metrics exist, user is looking at fares, and hits button a SECOND time
+    toast.success(`Requesting ${selectedVehicle}...`, {
+      style: { background: "#1c1c1e", color: "#fff", borderRadius: "12px" },
     });
 
-    toast.loading("Plotting optimal ride path...", { duration: 1500 });
-
     setTimeout(() => {
-      setIsSearching(true);
+      setIsVehicleSelected(true); // Closing the widget box !
     }, 1000);
   };
 
@@ -239,6 +254,7 @@ const RideBookingWidget = () => {
             {faresList.map((v) => {
               const isSelected = selectedVehicle === v.id;
               const VehicleIcon = iconMap[v.id] || Car;
+
               return (
                 <div
                   key={v.id}
@@ -257,12 +273,12 @@ const RideBookingWidget = () => {
                     {v.name}
                   </span>
                   <span className="text-sm font-extrabold mt-0.5">
-                    ₹{v.price}
+                    ₹{v.fare}
                   </span>
                   <span
-                    className={`text-[10px] mt-0.5 ${isSelected ? "text-orange-100" : "text-zinc-400"}`}
+                    className={`text-[10px] mt-0.5 ${isSelected ? "text-orange-100" : "text-blue-600"}`}
                   >
-                    {v.time}
+                    {formateTime(v.time)}
                   </span>
                 </div>
               );
