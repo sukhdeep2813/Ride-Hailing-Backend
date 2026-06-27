@@ -44,7 +44,7 @@ export const api = {
     }),
 
   calculateRidesFares: (metrics) =>
-    fetchWithAuth("fare/calculate", {
+    fetchWithAuth("/fare/calculate", {
       method: "POST",
       body: JSON.stringify(metrics),
     }),
