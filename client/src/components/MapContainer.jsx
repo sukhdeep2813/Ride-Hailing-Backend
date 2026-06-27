@@ -27,7 +27,7 @@ const MapContainer = () => {
   const nsutCoordinates = { lat: 28.609135, lng: 77.035081 };
 
   //For NavBar
-  const { isSearching, routePoints, mapStyle } = useLayout();
+  const { isSearching, routePoints, mapStyle, isVehicleSelected } = useLayout();
 
   const { profile } = useLayout();
   const [showDropdown, setShowDropdown] = useState(false);
@@ -92,7 +92,7 @@ const MapContainer = () => {
       <div className="absolute inset-0 pt-20 pointer-events-none z-10 flex flex-col md:block justify-end ">
         <div
           className={`pointer-events-auto w-full md:w-105 p-4 md:absolute md:top-4 md:left-8 transition-all duration-500 ease-in-out ${
-            isSearching
+            isVehicleSelected
               ? "-translate-x-[120%] opacity-0 pointer-events-none"
               : "translate-x-0 opacity-100"
           }`}
@@ -130,8 +130,6 @@ const MapContainer = () => {
             <MapDirectionsRenderer
               pickup={routePoints.pickup}
               destination={routePoints.destination}
-
-              
             />
           )}
           <AdvancedMarker position={nsutCoordinates} title={"NSUT Campus"} />
