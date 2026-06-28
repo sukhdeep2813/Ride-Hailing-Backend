@@ -36,42 +36,11 @@ export namespace $Enums {
 
 export type Role = (typeof Role)[keyof typeof Role]
 
-
-export const RideStatus: {
-  PENDING: 'PENDING',
-  ACCEPTED: 'ACCEPTED',
-  ONGOING: 'ONGOING',
-  COMPLETED: 'COMPLETED',
-  CANCELLED: 'CANCELLED'
-};
-
-export type RideStatus = (typeof RideStatus)[keyof typeof RideStatus]
-
-
-export const VehicleType: {
-  BoltBike: 'BoltBike',
-  BoltMini: 'BoltMini',
-  BoltMinini: 'BoltMinini',
-  BoltSedan: 'BoltSedan',
-  BoltSedan2: 'BoltSedan2',
-  BoltSuite: 'BoltSuite'
-};
-
-export type VehicleType = (typeof VehicleType)[keyof typeof VehicleType]
-
 }
 
 export type Role = $Enums.Role
 
 export const Role: typeof $Enums.Role
-
-export type RideStatus = $Enums.RideStatus
-
-export const RideStatus: typeof $Enums.RideStatus
-
-export type VehicleType = $Enums.VehicleType
-
-export const VehicleType: typeof $Enums.VehicleType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -2253,50 +2222,26 @@ export namespace Prisma {
 
   export type AggregateRide = {
     _count: RideCountAggregateOutputType | null
-    _avg: RideAvgAggregateOutputType | null
-    _sum: RideSumAggregateOutputType | null
     _min: RideMinAggregateOutputType | null
     _max: RideMaxAggregateOutputType | null
-  }
-
-  export type RideAvgAggregateOutputType = {
-    fare: number | null
-    distanceKm: number | null
-    durationMin: number | null
-  }
-
-  export type RideSumAggregateOutputType = {
-    fare: number | null
-    distanceKm: number | null
-    durationMin: number | null
   }
 
   export type RideMinAggregateOutputType = {
     id: string | null
     riderId: string | null
     driverId: string | null
-    status: $Enums.RideStatus | null
+    status: string | null
     pickupLoc: string | null
     dropoffLoc: string | null
-    vehicleType: string | null
-    fare: number | null
-    distanceKm: number | null
-    durationMin: number | null
-    createdAt: Date | null
   }
 
   export type RideMaxAggregateOutputType = {
     id: string | null
     riderId: string | null
     driverId: string | null
-    status: $Enums.RideStatus | null
+    status: string | null
     pickupLoc: string | null
     dropoffLoc: string | null
-    vehicleType: string | null
-    fare: number | null
-    distanceKm: number | null
-    durationMin: number | null
-    createdAt: Date | null
   }
 
   export type RideCountAggregateOutputType = {
@@ -2306,26 +2251,9 @@ export namespace Prisma {
     status: number
     pickupLoc: number
     dropoffLoc: number
-    vehicleType: number
-    fare: number
-    distanceKm: number
-    durationMin: number
-    createdAt: number
     _all: number
   }
 
-
-  export type RideAvgAggregateInputType = {
-    fare?: true
-    distanceKm?: true
-    durationMin?: true
-  }
-
-  export type RideSumAggregateInputType = {
-    fare?: true
-    distanceKm?: true
-    durationMin?: true
-  }
 
   export type RideMinAggregateInputType = {
     id?: true
@@ -2334,11 +2262,6 @@ export namespace Prisma {
     status?: true
     pickupLoc?: true
     dropoffLoc?: true
-    vehicleType?: true
-    fare?: true
-    distanceKm?: true
-    durationMin?: true
-    createdAt?: true
   }
 
   export type RideMaxAggregateInputType = {
@@ -2348,11 +2271,6 @@ export namespace Prisma {
     status?: true
     pickupLoc?: true
     dropoffLoc?: true
-    vehicleType?: true
-    fare?: true
-    distanceKm?: true
-    durationMin?: true
-    createdAt?: true
   }
 
   export type RideCountAggregateInputType = {
@@ -2362,11 +2280,6 @@ export namespace Prisma {
     status?: true
     pickupLoc?: true
     dropoffLoc?: true
-    vehicleType?: true
-    fare?: true
-    distanceKm?: true
-    durationMin?: true
-    createdAt?: true
     _all?: true
   }
 
@@ -2408,18 +2321,6 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Select which fields to average
-    **/
-    _avg?: RideAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: RideSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
      * Select which fields to find the minimum value
     **/
     _min?: RideMinAggregateInputType
@@ -2450,8 +2351,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: RideCountAggregateInputType | true
-    _avg?: RideAvgAggregateInputType
-    _sum?: RideSumAggregateInputType
     _min?: RideMinAggregateInputType
     _max?: RideMaxAggregateInputType
   }
@@ -2460,17 +2359,10 @@ export namespace Prisma {
     id: string
     riderId: string
     driverId: string | null
-    status: $Enums.RideStatus
+    status: string
     pickupLoc: string
     dropoffLoc: string
-    vehicleType: string
-    fare: number
-    distanceKm: number | null
-    durationMin: number | null
-    createdAt: Date
     _count: RideCountAggregateOutputType | null
-    _avg: RideAvgAggregateOutputType | null
-    _sum: RideSumAggregateOutputType | null
     _min: RideMinAggregateOutputType | null
     _max: RideMaxAggregateOutputType | null
   }
@@ -2496,11 +2388,6 @@ export namespace Prisma {
     status?: boolean
     pickupLoc?: boolean
     dropoffLoc?: boolean
-    vehicleType?: boolean
-    fare?: boolean
-    distanceKm?: boolean
-    durationMin?: boolean
-    createdAt?: boolean
     rider?: boolean | UserDefaultArgs<ExtArgs>
     driver?: boolean | Ride$driverArgs<ExtArgs>
   }, ExtArgs["result"]["ride"]>
@@ -2512,11 +2399,6 @@ export namespace Prisma {
     status?: boolean
     pickupLoc?: boolean
     dropoffLoc?: boolean
-    vehicleType?: boolean
-    fare?: boolean
-    distanceKm?: boolean
-    durationMin?: boolean
-    createdAt?: boolean
     rider?: boolean | UserDefaultArgs<ExtArgs>
     driver?: boolean | Ride$driverArgs<ExtArgs>
   }, ExtArgs["result"]["ride"]>
@@ -2528,11 +2410,6 @@ export namespace Prisma {
     status?: boolean
     pickupLoc?: boolean
     dropoffLoc?: boolean
-    vehicleType?: boolean
-    fare?: boolean
-    distanceKm?: boolean
-    durationMin?: boolean
-    createdAt?: boolean
     rider?: boolean | UserDefaultArgs<ExtArgs>
     driver?: boolean | Ride$driverArgs<ExtArgs>
   }, ExtArgs["result"]["ride"]>
@@ -2544,14 +2421,9 @@ export namespace Prisma {
     status?: boolean
     pickupLoc?: boolean
     dropoffLoc?: boolean
-    vehicleType?: boolean
-    fare?: boolean
-    distanceKm?: boolean
-    durationMin?: boolean
-    createdAt?: boolean
   }
 
-  export type RideOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "riderId" | "driverId" | "status" | "pickupLoc" | "dropoffLoc" | "vehicleType" | "fare" | "distanceKm" | "durationMin" | "createdAt", ExtArgs["result"]["ride"]>
+  export type RideOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "riderId" | "driverId" | "status" | "pickupLoc" | "dropoffLoc", ExtArgs["result"]["ride"]>
   export type RideInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     rider?: boolean | UserDefaultArgs<ExtArgs>
     driver?: boolean | Ride$driverArgs<ExtArgs>
@@ -2575,14 +2447,9 @@ export namespace Prisma {
       id: string
       riderId: string
       driverId: string | null
-      status: $Enums.RideStatus
+      status: string
       pickupLoc: string
       dropoffLoc: string
-      vehicleType: string
-      fare: number
-      distanceKm: number | null
-      durationMin: number | null
-      createdAt: Date
     }, ExtArgs["result"]["ride"]>
     composites: {}
   }
@@ -3011,14 +2878,9 @@ export namespace Prisma {
     readonly id: FieldRef<"Ride", 'String'>
     readonly riderId: FieldRef<"Ride", 'String'>
     readonly driverId: FieldRef<"Ride", 'String'>
-    readonly status: FieldRef<"Ride", 'RideStatus'>
+    readonly status: FieldRef<"Ride", 'String'>
     readonly pickupLoc: FieldRef<"Ride", 'String'>
     readonly dropoffLoc: FieldRef<"Ride", 'String'>
-    readonly vehicleType: FieldRef<"Ride", 'String'>
-    readonly fare: FieldRef<"Ride", 'Float'>
-    readonly distanceKm: FieldRef<"Ride", 'Float'>
-    readonly durationMin: FieldRef<"Ride", 'Float'>
-    readonly createdAt: FieldRef<"Ride", 'DateTime'>
   }
     
 
@@ -3493,12 +3355,7 @@ export namespace Prisma {
     driverId: 'driverId',
     status: 'status',
     pickupLoc: 'pickupLoc',
-    dropoffLoc: 'dropoffLoc',
-    vehicleType: 'vehicleType',
-    fare: 'fare',
-    distanceKm: 'distanceKm',
-    durationMin: 'durationMin',
-    createdAt: 'createdAt'
+    dropoffLoc: 'dropoffLoc'
   };
 
   export type RideScalarFieldEnum = (typeof RideScalarFieldEnum)[keyof typeof RideScalarFieldEnum]
@@ -3586,20 +3443,6 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'RideStatus'
-   */
-  export type EnumRideStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RideStatus'>
-    
-
-
-  /**
-   * Reference to a field of type 'RideStatus[]'
-   */
-  export type ListEnumRideStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RideStatus[]'>
     
 
 
@@ -3712,14 +3555,9 @@ export namespace Prisma {
     id?: StringFilter<"Ride"> | string
     riderId?: StringFilter<"Ride"> | string
     driverId?: StringNullableFilter<"Ride"> | string | null
-    status?: EnumRideStatusFilter<"Ride"> | $Enums.RideStatus
+    status?: StringFilter<"Ride"> | string
     pickupLoc?: StringFilter<"Ride"> | string
     dropoffLoc?: StringFilter<"Ride"> | string
-    vehicleType?: StringFilter<"Ride"> | string
-    fare?: FloatFilter<"Ride"> | number
-    distanceKm?: FloatNullableFilter<"Ride"> | number | null
-    durationMin?: FloatNullableFilter<"Ride"> | number | null
-    createdAt?: DateTimeFilter<"Ride"> | Date | string
     rider?: XOR<UserScalarRelationFilter, UserWhereInput>
     driver?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }
@@ -3731,11 +3569,6 @@ export namespace Prisma {
     status?: SortOrder
     pickupLoc?: SortOrder
     dropoffLoc?: SortOrder
-    vehicleType?: SortOrder
-    fare?: SortOrder
-    distanceKm?: SortOrderInput | SortOrder
-    durationMin?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
     rider?: UserOrderByWithRelationInput
     driver?: UserOrderByWithRelationInput
   }
@@ -3747,14 +3580,9 @@ export namespace Prisma {
     NOT?: RideWhereInput | RideWhereInput[]
     riderId?: StringFilter<"Ride"> | string
     driverId?: StringNullableFilter<"Ride"> | string | null
-    status?: EnumRideStatusFilter<"Ride"> | $Enums.RideStatus
+    status?: StringFilter<"Ride"> | string
     pickupLoc?: StringFilter<"Ride"> | string
     dropoffLoc?: StringFilter<"Ride"> | string
-    vehicleType?: StringFilter<"Ride"> | string
-    fare?: FloatFilter<"Ride"> | number
-    distanceKm?: FloatNullableFilter<"Ride"> | number | null
-    durationMin?: FloatNullableFilter<"Ride"> | number | null
-    createdAt?: DateTimeFilter<"Ride"> | Date | string
     rider?: XOR<UserScalarRelationFilter, UserWhereInput>
     driver?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }, "id">
@@ -3766,16 +3594,9 @@ export namespace Prisma {
     status?: SortOrder
     pickupLoc?: SortOrder
     dropoffLoc?: SortOrder
-    vehicleType?: SortOrder
-    fare?: SortOrder
-    distanceKm?: SortOrderInput | SortOrder
-    durationMin?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
     _count?: RideCountOrderByAggregateInput
-    _avg?: RideAvgOrderByAggregateInput
     _max?: RideMaxOrderByAggregateInput
     _min?: RideMinOrderByAggregateInput
-    _sum?: RideSumOrderByAggregateInput
   }
 
   export type RideScalarWhereWithAggregatesInput = {
@@ -3785,14 +3606,9 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Ride"> | string
     riderId?: StringWithAggregatesFilter<"Ride"> | string
     driverId?: StringNullableWithAggregatesFilter<"Ride"> | string | null
-    status?: EnumRideStatusWithAggregatesFilter<"Ride"> | $Enums.RideStatus
+    status?: StringWithAggregatesFilter<"Ride"> | string
     pickupLoc?: StringWithAggregatesFilter<"Ride"> | string
     dropoffLoc?: StringWithAggregatesFilter<"Ride"> | string
-    vehicleType?: StringWithAggregatesFilter<"Ride"> | string
-    fare?: FloatWithAggregatesFilter<"Ride"> | number
-    distanceKm?: FloatNullableWithAggregatesFilter<"Ride"> | number | null
-    durationMin?: FloatNullableWithAggregatesFilter<"Ride"> | number | null
-    createdAt?: DateTimeWithAggregatesFilter<"Ride"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -3896,14 +3712,9 @@ export namespace Prisma {
 
   export type RideCreateInput = {
     id?: string
-    status?: $Enums.RideStatus
+    status: string
     pickupLoc: string
     dropoffLoc: string
-    vehicleType: string
-    fare: number
-    distanceKm?: number | null
-    durationMin?: number | null
-    createdAt?: Date | string
     rider: UserCreateNestedOneWithoutRidesAsRiderInput
     driver?: UserCreateNestedOneWithoutRidesAsDriverInput
   }
@@ -3912,26 +3723,16 @@ export namespace Prisma {
     id?: string
     riderId: string
     driverId?: string | null
-    status?: $Enums.RideStatus
+    status: string
     pickupLoc: string
     dropoffLoc: string
-    vehicleType: string
-    fare: number
-    distanceKm?: number | null
-    durationMin?: number | null
-    createdAt?: Date | string
   }
 
   export type RideUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
+    status?: StringFieldUpdateOperationsInput | string
     pickupLoc?: StringFieldUpdateOperationsInput | string
     dropoffLoc?: StringFieldUpdateOperationsInput | string
-    vehicleType?: StringFieldUpdateOperationsInput | string
-    fare?: FloatFieldUpdateOperationsInput | number
-    distanceKm?: NullableFloatFieldUpdateOperationsInput | number | null
-    durationMin?: NullableFloatFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     rider?: UserUpdateOneRequiredWithoutRidesAsRiderNestedInput
     driver?: UserUpdateOneWithoutRidesAsDriverNestedInput
   }
@@ -3940,54 +3741,34 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     riderId?: StringFieldUpdateOperationsInput | string
     driverId?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
+    status?: StringFieldUpdateOperationsInput | string
     pickupLoc?: StringFieldUpdateOperationsInput | string
     dropoffLoc?: StringFieldUpdateOperationsInput | string
-    vehicleType?: StringFieldUpdateOperationsInput | string
-    fare?: FloatFieldUpdateOperationsInput | number
-    distanceKm?: NullableFloatFieldUpdateOperationsInput | number | null
-    durationMin?: NullableFloatFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RideCreateManyInput = {
     id?: string
     riderId: string
     driverId?: string | null
-    status?: $Enums.RideStatus
+    status: string
     pickupLoc: string
     dropoffLoc: string
-    vehicleType: string
-    fare: number
-    distanceKm?: number | null
-    durationMin?: number | null
-    createdAt?: Date | string
   }
 
   export type RideUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
+    status?: StringFieldUpdateOperationsInput | string
     pickupLoc?: StringFieldUpdateOperationsInput | string
     dropoffLoc?: StringFieldUpdateOperationsInput | string
-    vehicleType?: StringFieldUpdateOperationsInput | string
-    fare?: FloatFieldUpdateOperationsInput | number
-    distanceKm?: NullableFloatFieldUpdateOperationsInput | number | null
-    durationMin?: NullableFloatFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RideUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     riderId?: StringFieldUpdateOperationsInput | string
     driverId?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
+    status?: StringFieldUpdateOperationsInput | string
     pickupLoc?: StringFieldUpdateOperationsInput | string
     dropoffLoc?: StringFieldUpdateOperationsInput | string
-    vehicleType?: StringFieldUpdateOperationsInput | string
-    fare?: FloatFieldUpdateOperationsInput | number
-    distanceKm?: NullableFloatFieldUpdateOperationsInput | number | null
-    durationMin?: NullableFloatFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -4187,24 +3968,6 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type EnumRideStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.RideStatus | EnumRideStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.RideStatus[] | ListEnumRideStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.RideStatus[] | ListEnumRideStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumRideStatusFilter<$PrismaModel> | $Enums.RideStatus
-  }
-
-  export type FloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
@@ -4222,17 +3985,6 @@ export namespace Prisma {
     status?: SortOrder
     pickupLoc?: SortOrder
     dropoffLoc?: SortOrder
-    vehicleType?: SortOrder
-    fare?: SortOrder
-    distanceKm?: SortOrder
-    durationMin?: SortOrder
-    createdAt?: SortOrder
-  }
-
-  export type RideAvgOrderByAggregateInput = {
-    fare?: SortOrder
-    distanceKm?: SortOrder
-    durationMin?: SortOrder
   }
 
   export type RideMaxOrderByAggregateInput = {
@@ -4242,11 +3994,6 @@ export namespace Prisma {
     status?: SortOrder
     pickupLoc?: SortOrder
     dropoffLoc?: SortOrder
-    vehicleType?: SortOrder
-    fare?: SortOrder
-    distanceKm?: SortOrder
-    durationMin?: SortOrder
-    createdAt?: SortOrder
   }
 
   export type RideMinOrderByAggregateInput = {
@@ -4256,43 +4003,6 @@ export namespace Prisma {
     status?: SortOrder
     pickupLoc?: SortOrder
     dropoffLoc?: SortOrder
-    vehicleType?: SortOrder
-    fare?: SortOrder
-    distanceKm?: SortOrder
-    durationMin?: SortOrder
-    createdAt?: SortOrder
-  }
-
-  export type RideSumOrderByAggregateInput = {
-    fare?: SortOrder
-    distanceKm?: SortOrder
-    durationMin?: SortOrder
-  }
-
-  export type EnumRideStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.RideStatus | EnumRideStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.RideStatus[] | ListEnumRideStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.RideStatus[] | ListEnumRideStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumRideStatusWithAggregatesFilter<$PrismaModel> | $Enums.RideStatus
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumRideStatusFilter<$PrismaModel>
-    _max?: NestedEnumRideStatusFilter<$PrismaModel>
-  }
-
-  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedFloatNullableFilter<$PrismaModel>
-    _min?: NestedFloatNullableFilter<$PrismaModel>
-    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type RideCreateNestedManyWithoutRiderInput = {
@@ -4413,18 +4123,6 @@ export namespace Prisma {
     create?: XOR<UserCreateWithoutRidesAsDriverInput, UserUncheckedCreateWithoutRidesAsDriverInput>
     connectOrCreate?: UserCreateOrConnectWithoutRidesAsDriverInput
     connect?: UserWhereUniqueInput
-  }
-
-  export type EnumRideStatusFieldUpdateOperationsInput = {
-    set?: $Enums.RideStatus
-  }
-
-  export type NullableFloatFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type UserUpdateOneRequiredWithoutRidesAsRiderNestedInput = {
@@ -4598,74 +4296,20 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type NestedEnumRideStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.RideStatus | EnumRideStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.RideStatus[] | ListEnumRideStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.RideStatus[] | ListEnumRideStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumRideStatusFilter<$PrismaModel> | $Enums.RideStatus
-  }
-
-  export type NestedFloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type NestedEnumRideStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.RideStatus | EnumRideStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.RideStatus[] | ListEnumRideStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.RideStatus[] | ListEnumRideStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumRideStatusWithAggregatesFilter<$PrismaModel> | $Enums.RideStatus
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumRideStatusFilter<$PrismaModel>
-    _max?: NestedEnumRideStatusFilter<$PrismaModel>
-  }
-
-  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedFloatNullableFilter<$PrismaModel>
-    _min?: NestedFloatNullableFilter<$PrismaModel>
-    _max?: NestedFloatNullableFilter<$PrismaModel>
-  }
-
   export type RideCreateWithoutRiderInput = {
     id?: string
-    status?: $Enums.RideStatus
+    status: string
     pickupLoc: string
     dropoffLoc: string
-    vehicleType: string
-    fare: number
-    distanceKm?: number | null
-    durationMin?: number | null
-    createdAt?: Date | string
     driver?: UserCreateNestedOneWithoutRidesAsDriverInput
   }
 
   export type RideUncheckedCreateWithoutRiderInput = {
     id?: string
     driverId?: string | null
-    status?: $Enums.RideStatus
+    status: string
     pickupLoc: string
     dropoffLoc: string
-    vehicleType: string
-    fare: number
-    distanceKm?: number | null
-    durationMin?: number | null
-    createdAt?: Date | string
   }
 
   export type RideCreateOrConnectWithoutRiderInput = {
@@ -4680,28 +4324,18 @@ export namespace Prisma {
 
   export type RideCreateWithoutDriverInput = {
     id?: string
-    status?: $Enums.RideStatus
+    status: string
     pickupLoc: string
     dropoffLoc: string
-    vehicleType: string
-    fare: number
-    distanceKm?: number | null
-    durationMin?: number | null
-    createdAt?: Date | string
     rider: UserCreateNestedOneWithoutRidesAsRiderInput
   }
 
   export type RideUncheckedCreateWithoutDriverInput = {
     id?: string
     riderId: string
-    status?: $Enums.RideStatus
+    status: string
     pickupLoc: string
     dropoffLoc: string
-    vehicleType: string
-    fare: number
-    distanceKm?: number | null
-    durationMin?: number | null
-    createdAt?: Date | string
   }
 
   export type RideCreateOrConnectWithoutDriverInput = {
@@ -4737,14 +4371,9 @@ export namespace Prisma {
     id?: StringFilter<"Ride"> | string
     riderId?: StringFilter<"Ride"> | string
     driverId?: StringNullableFilter<"Ride"> | string | null
-    status?: EnumRideStatusFilter<"Ride"> | $Enums.RideStatus
+    status?: StringFilter<"Ride"> | string
     pickupLoc?: StringFilter<"Ride"> | string
     dropoffLoc?: StringFilter<"Ride"> | string
-    vehicleType?: StringFilter<"Ride"> | string
-    fare?: FloatFilter<"Ride"> | number
-    distanceKm?: FloatNullableFilter<"Ride"> | number | null
-    durationMin?: FloatNullableFilter<"Ride"> | number | null
-    createdAt?: DateTimeFilter<"Ride"> | Date | string
   }
 
   export type RideUpsertWithWhereUniqueWithoutDriverInput = {
@@ -4910,105 +4539,65 @@ export namespace Prisma {
   export type RideCreateManyRiderInput = {
     id?: string
     driverId?: string | null
-    status?: $Enums.RideStatus
+    status: string
     pickupLoc: string
     dropoffLoc: string
-    vehicleType: string
-    fare: number
-    distanceKm?: number | null
-    durationMin?: number | null
-    createdAt?: Date | string
   }
 
   export type RideCreateManyDriverInput = {
     id?: string
     riderId: string
-    status?: $Enums.RideStatus
+    status: string
     pickupLoc: string
     dropoffLoc: string
-    vehicleType: string
-    fare: number
-    distanceKm?: number | null
-    durationMin?: number | null
-    createdAt?: Date | string
   }
 
   export type RideUpdateWithoutRiderInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
+    status?: StringFieldUpdateOperationsInput | string
     pickupLoc?: StringFieldUpdateOperationsInput | string
     dropoffLoc?: StringFieldUpdateOperationsInput | string
-    vehicleType?: StringFieldUpdateOperationsInput | string
-    fare?: FloatFieldUpdateOperationsInput | number
-    distanceKm?: NullableFloatFieldUpdateOperationsInput | number | null
-    durationMin?: NullableFloatFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     driver?: UserUpdateOneWithoutRidesAsDriverNestedInput
   }
 
   export type RideUncheckedUpdateWithoutRiderInput = {
     id?: StringFieldUpdateOperationsInput | string
     driverId?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
+    status?: StringFieldUpdateOperationsInput | string
     pickupLoc?: StringFieldUpdateOperationsInput | string
     dropoffLoc?: StringFieldUpdateOperationsInput | string
-    vehicleType?: StringFieldUpdateOperationsInput | string
-    fare?: FloatFieldUpdateOperationsInput | number
-    distanceKm?: NullableFloatFieldUpdateOperationsInput | number | null
-    durationMin?: NullableFloatFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RideUncheckedUpdateManyWithoutRiderInput = {
     id?: StringFieldUpdateOperationsInput | string
     driverId?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
+    status?: StringFieldUpdateOperationsInput | string
     pickupLoc?: StringFieldUpdateOperationsInput | string
     dropoffLoc?: StringFieldUpdateOperationsInput | string
-    vehicleType?: StringFieldUpdateOperationsInput | string
-    fare?: FloatFieldUpdateOperationsInput | number
-    distanceKm?: NullableFloatFieldUpdateOperationsInput | number | null
-    durationMin?: NullableFloatFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RideUpdateWithoutDriverInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
+    status?: StringFieldUpdateOperationsInput | string
     pickupLoc?: StringFieldUpdateOperationsInput | string
     dropoffLoc?: StringFieldUpdateOperationsInput | string
-    vehicleType?: StringFieldUpdateOperationsInput | string
-    fare?: FloatFieldUpdateOperationsInput | number
-    distanceKm?: NullableFloatFieldUpdateOperationsInput | number | null
-    durationMin?: NullableFloatFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     rider?: UserUpdateOneRequiredWithoutRidesAsRiderNestedInput
   }
 
   export type RideUncheckedUpdateWithoutDriverInput = {
     id?: StringFieldUpdateOperationsInput | string
     riderId?: StringFieldUpdateOperationsInput | string
-    status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
+    status?: StringFieldUpdateOperationsInput | string
     pickupLoc?: StringFieldUpdateOperationsInput | string
     dropoffLoc?: StringFieldUpdateOperationsInput | string
-    vehicleType?: StringFieldUpdateOperationsInput | string
-    fare?: FloatFieldUpdateOperationsInput | number
-    distanceKm?: NullableFloatFieldUpdateOperationsInput | number | null
-    durationMin?: NullableFloatFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RideUncheckedUpdateManyWithoutDriverInput = {
     id?: StringFieldUpdateOperationsInput | string
     riderId?: StringFieldUpdateOperationsInput | string
-    status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
+    status?: StringFieldUpdateOperationsInput | string
     pickupLoc?: StringFieldUpdateOperationsInput | string
     dropoffLoc?: StringFieldUpdateOperationsInput | string
-    vehicleType?: StringFieldUpdateOperationsInput | string
-    fare?: FloatFieldUpdateOperationsInput | number
-    distanceKm?: NullableFloatFieldUpdateOperationsInput | number | null
-    durationMin?: NullableFloatFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

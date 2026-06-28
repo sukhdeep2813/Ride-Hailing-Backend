@@ -35,37 +35,13 @@ enum Role {
   ADMIN
 }
 
-enum RideStatus {
-  PENDING
-  ACCEPTED
-  ONGOING
-  COMPLETED
-  CANCELLED
-}
-
-enum VehicleType {
-  BoltBike
-  BoltMini
-  BoltMinini
-  BoltSedan
-  BoltSedan2
-  BoltSuite
-}
-
 model Ride {
-  id         String     @id @default(uuid())
+  id         String  @id @default(uuid())
   riderId    String
   driverId   String?
-  status     RideStatus @default(PENDING) // PENDING, ACCEPTED, COMPLETED
+  status     String // PENDING, ACCEPTED, COMPLETED
   pickupLoc  String // We can use Geometry types later for PostGIS
   dropoffLoc String
-
-  vehicleType String // BoltBike, BoltSedan, BoltMini, etc.
-  fare        Float // Keeps currency/cost floating-point accurate 
-  distanceKm  Float? // Useful to save for receipts/history summaries
-  durationMin Float? // Useful to save for receipts/history summaries
-
-  createdAt DateTime @default(now()) // Keeps order chronological
 
   rider  User  @relation("RiderRides", fields: [riderId], references: [id])
   driver User? @relation("DriverRides", fields: [driverId], references: [id])
