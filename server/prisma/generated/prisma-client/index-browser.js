@@ -139,7 +139,12 @@ exports.Prisma.RideScalarFieldEnum = {
   driverId: 'driverId',
   status: 'status',
   pickupLoc: 'pickupLoc',
-  dropoffLoc: 'dropoffLoc'
+  dropoffLoc: 'dropoffLoc',
+  vehicleType: 'vehicleType',
+  fare: 'fare',
+  distanceKm: 'distanceKm',
+  durationMin: 'durationMin',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -160,6 +165,14 @@ exports.Role = exports.$Enums.Role = {
   RIDER: 'RIDER',
   DRIVER: 'DRIVER',
   ADMIN: 'ADMIN'
+};
+
+exports.RideStatus = exports.$Enums.RideStatus = {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  ONGOING: 'ONGOING',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED'
 };
 
 exports.Prisma.ModelName = {
