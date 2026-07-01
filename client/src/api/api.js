@@ -48,4 +48,11 @@ export const api = {
       method: "POST",
       body: JSON.stringify(metrics),
     }),
+
+  getRideHistory: () => fetchWithAuth("/rides/history", { method: "GET" }),
+  createRideBooking: (rideData) =>
+    fetchWithAuth("/rides/create", {
+      method: "POST",
+      body: JSON.stringify(rideData),
+    }),
 };
