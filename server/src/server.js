@@ -5,6 +5,7 @@ import passport from "./config/passport.js";
 import session from "express-session";
 import authRoute from "./routes/authRoute.js";
 import fareRoute from "./routes/fareRoute.js";
+import rideRoute from "./routes/rideRoute.js";
 
 dotenv.config();
 
@@ -34,6 +35,8 @@ app.use(
 
 app.use("/api/auth", authRoute);
 app.use("/api/fare", fareRoute);
+app.use("/api/rides", rideRoute);
+app.use("/api/create", rideRoute);
 
 app.get("/", (req, res) => {
   res.send("Backend is Working");
