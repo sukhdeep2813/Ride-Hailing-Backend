@@ -95,7 +95,7 @@ const RideBookingWidget = () => {
     }
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     if (e) e.preventDefault();
 
     // 1️⃣ STAGE 1: If map metrics haven't loaded yet, fetch the route path line
@@ -127,13 +127,47 @@ const RideBookingWidget = () => {
     }
 
     // 2️⃣ STAGE 2: Metrics exist, user is looking at fares, and hits button a SECOND time
-    toast.success(`Requesting ${selectedVehicle}...`, {
-      style: { background: "#1c1c1e", color: "#fff", borderRadius: "12px" },
-    });
+    try {
+      const bookingToast = toast.loading("Processing your booking request...");
 
-    setTimeout(() => {
-      setIsVehicleSelected(true); // Closing the widget box !
-    }, 1000);
+      // Find the fare value from your faresList array matching the selected variant name
+      const chosenFareObj = faresList.find((f) => f.id === selectedVehicle);
+      const finalPrice = chosenFareObj ? chosenFareObj.fare : 0;
+
+      const finalPickup = PlaceExtractorForPickupAnsDestination(pickup);
+      const finalDestination =
+        PlaceExtractorForPickupAnsDestination(destination);
+
+      const response = await api.createRideBooking({
+        pickupLocation: finalPickup,
+        destLocation: finalDestination,
+        distanceKm: routeMetrics.distanceKm,
+        durationMin: routeMetrics.durationMin,
+        vehicleType: selectedVehicle,
+        fare: finalPrice,
+        paymentMethod: paymentMethod, // e.g., "Cash"
+      });
+
+      toast.dismiss(bookingToast);
+
+      console.log("Ride booking response:", response);
+
+      if (response && (response.success || response.ride)) {
+        toast.success(`Ride Requested! Finding your ${selectedVehicle}...`, {
+          style: { background: "#1c1c1e", color: "#fff", borderRadius: "12px" },
+        });
+
+        // 💡 ONLY NOW do we hide the input widget panel and show the loading overlay
+        setTimeout(() => {
+          setIsVehicleSelected(true);
+        }, 800);
+      } else {
+        toast.error(response.message || "Failed to process booking on server.");
+      }
+    } catch (error) {
+      console.error("Submission pipeline broke:", error);
+      toast.error("Network error creating your ride request.");
+    }
   };
 
   return (
