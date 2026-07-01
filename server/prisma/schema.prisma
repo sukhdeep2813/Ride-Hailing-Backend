@@ -40,11 +40,27 @@ model Ride {
   id          String   @id @default(uuid())
   riderId     String
   driverId    String?
-  status      String   // PENDING, ACCEPTED, COMPLETED
+  status      RideStatus @default(PENDING)   // PENDING, ACCEPTED, COMPLETED
   pickupLoc   String   // We can use Geometry types later for PostGIS
   dropoffLoc  String
+
+  vehicleType String     @default("BoltSedan") //we also can make this optional by ? and can fill value after running script 
+  fare        Float      @default(0.0)         
+  distanceKm  Float      // Now required strictly for accurate metric calculations
+  durationMin Float      // Now required strictly for accurate metric calculations
+
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
   
   rider       User     @relation("RiderRides", fields: [riderId], references: [id])
   driver      User?    @relation("DriverRides", fields: [driverId], references: [id])
+}
+
+enum RideStatus {
+  PENDING
+  ACCEPTED
+  ONGOING
+  COMPLETED
+  CANCELLED
 }
 
