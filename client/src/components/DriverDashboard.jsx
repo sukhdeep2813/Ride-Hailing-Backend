@@ -33,8 +33,14 @@ const DriverDashboard = () => {
     if (!showSilent) setLoading(true);
     try {
       const response = await api.getPendingRides();
-      if (response && response.success) {
-        setAvailableRides(response.rides || []);
+      if (response) {
+        if (Array.isArray(response.rides)) {
+          setAvailableRides(response.rides);
+        } else if (Array.isArray(response)) {
+          setAvailableRides(response);
+        } else if (response.success && response.rides) {
+          setAvailableRides(response.rides);
+        }
       }
     } catch (error) {
       console.error("Error fetching pending rides:", error);
@@ -80,6 +86,8 @@ const DriverDashboard = () => {
     const actionToast = toast.loading("Accepting job...");
     try {
       const response = await api.acceptRideJob(rideId);
+
+      toast.dismiss(actionToast);
       if (response && response.success) {
         toast.success("Ride accepted! Proceed to the rider's destination.", {
           icon: "🚗",
@@ -214,7 +222,7 @@ const DriverDashboard = () => {
               {/* Accept Input Action Controller Trigger */}
               <button
                 onClick={() => handleAcceptJob(ride.id)}
-                className="w-full bg-orange-500 hover:bg-orange-600 text-black font-bold text-sm py-3 rounded-xl transition-all active:scale-[0.98] flex items-center justify-center gap-2 mt-2 shadow-lg shadow-orange-500/10"
+                className="w-full bg-orange-500 hover:bg-orange-600 text-black font-bold text-sm py-3 rounded-xl transition-all active:scale-[0.98] flex items-center justify-center gap-2 mt-2 shadow-lg shadow-orange-500/10 cursor-pointer"
               >
                 <Check size={16} strokeWidth={3} /> Accept Job
               </button>
