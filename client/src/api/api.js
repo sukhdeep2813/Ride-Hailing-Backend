@@ -55,4 +55,6 @@ export const api = {
       method: "POST",
       body: JSON.stringify(rideData),
     }),
+    getPendingRides: () => fetchWithAuth("/rides/pending", { method: "GET" }),
+    acceptRideJob : (rideId) => fetchWithAuth(`/rides/accept/${rideId}`, { method: "PATCH" }),
 };
