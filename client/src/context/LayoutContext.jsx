@@ -14,6 +14,7 @@ export const LayoutProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchUserData = async () => {
+      if (profile) return;
       try {
         const data = await api.getUserProfile();
 
@@ -23,7 +24,7 @@ export const LayoutProvider = ({ children }) => {
       }
     };
     fetchUserData();
-  }, []);
+  }, [profile]);
 
   return (
     <LayoutContext.Provider
