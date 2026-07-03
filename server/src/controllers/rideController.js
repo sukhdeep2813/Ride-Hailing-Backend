@@ -47,3 +47,19 @@ export const createRide = async (req, res) => {
       .json({ success: false, message: "Server error creating ride." });
   }
 };
+
+export const getPendingRides = async (req, res) => {
+  try {
+    const rides = await prisma.ride.findMany({
+      where: { status: "PENDING" },
+      orderBy: { createdAt: "desc" },
+    });
+    console.log("Fetched pending rides:", rides);
+    return res.status(200).json({ sucess: true, rides });
+  } catch (error) {
+    console.error("Error fetching pending rides, rides", error);
+    return res
+      .status(500)
+      .json({ sucess: false, message: "Internal server error" });
+  }
+};
