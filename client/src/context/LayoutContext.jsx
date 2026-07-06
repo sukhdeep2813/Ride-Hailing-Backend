@@ -24,7 +24,7 @@ export const LayoutProvider = ({ children }) => {
       }
     };
     fetchUserData();
-  }, [profile]);
+  }, []);
 
   return (
     <LayoutContext.Provider
