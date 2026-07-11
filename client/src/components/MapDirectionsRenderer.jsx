@@ -6,7 +6,7 @@ const MapDirectionsRenderer = ({ pickup, destination }) => {
   const map = useMap();
   // Fetch Google's core routing library seamlessly via vis.gl hooks
   const routesLibrary = useMapsLibrary("routes");
-  const { setRouteMetrics } = useLayout();
+  const { setRouteMetrics, setPickupCoordinatates } = useLayout();
 
   const [directionsService, setDirectionsService] = useState(null);
   const [directionsRenderer, setDirectionsRenderer] = useState(null);
@@ -48,13 +48,18 @@ const MapDirectionsRenderer = ({ pickup, destination }) => {
           // Draws the line and places default 'A' and 'B' pins automatically
           directionsRenderer.setDirections(result);
 
-          console.log(result);
-
           // Automatically adjust camera zoom bounds to fit both markers perfectly on screen
           const bounds = result.routes[0].bounds;
           map.fitBounds(bounds);
 
           const routeLeg = result.routes[0].legs[0];
+
+          console.log("this is :", routeLeg);
+
+          setPickupCoordinatates({
+            lat: routeLeg.start_location.lat(),
+            lng: routeLeg.start_location.lng(),
+          });
 
           setRouteMetrics({
             distanceKm: routeLeg.distance.value / 1000,
@@ -78,6 +83,7 @@ const MapDirectionsRenderer = ({ pickup, destination }) => {
     destination,
     map,
     setRouteMetrics,
+    setPickupCoordinatates,
   ]);
 
   return null; //this component is purely functional and doesn't render any JSX itself. It interacts directly with the Google Maps API to draw routes on the map based on the provided pickup and destination coordinates.
