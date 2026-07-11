@@ -16,10 +16,17 @@ import { PlaceExtractorForPickupAnsDestination } from "../utils/placesExtracter"
 import { api } from "../api/api.js";
 import { useEffect } from "react";
 import { formateTime } from "../utils/timeFormatter.js";
+import generateNearbyDrivers from "../utils/offsetCoordinateGenerator.js";
 
 const RideBookingWidget = () => {
-  const { setIsSearching, setRoutePoints, routeMetrics, setIsVehicleSelected } =
-    useLayout();
+  const {
+    setIsSearching,
+    setRoutePoints,
+    routeMetrics,
+    setIsVehicleSelected,
+    pickupCoordinates,
+    setNearbyDrivers,
+  } = useLayout();
   const [pickup, setPickup] = useState("");
   const [destination, setDestination] = useState("");
 
@@ -153,6 +160,20 @@ const RideBookingWidget = () => {
       console.log("Ride booking response:", response);
 
       if (response && (response.success || response.ride)) {
+        if (!pickupCoordinates) {
+          toast.error("Pickup coordinates not available.");
+          return;
+        }
+
+        const drivers = generateNearbyDrivers(
+          pickupCoordinates.lat,
+          pickupCoordinates.lng,
+          8,
+        );
+
+        setNearbyDrivers(drivers);
+        console.log("these are driver : ", drivers);
+
         toast.success(`Ride Requested! Finding your ${selectedVehicle}...`, {
           style: { background: "#1c1c1e", color: "#fff", borderRadius: "12px" },
         });
