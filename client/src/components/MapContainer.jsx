@@ -126,6 +126,7 @@ const MapContainer = () => {
             strictBounds: true,
           }}
         >
+        
           {isSearching && routePoints.pickup && routePoints.destination && (
             <MapDirectionsRenderer
               pickup={routePoints.pickup}
