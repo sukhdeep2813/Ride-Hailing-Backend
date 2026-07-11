@@ -11,6 +11,8 @@ export const LayoutProvider = ({ children }) => {
   const [mapStyle, setMapStyle] = useState("roadmap"); // For toggling map styles
   const [profile, setProfile] = useState(null);
   const [routeMetrics, setRouteMetrics] = useState(null);
+  const [pickupCoordinates, setPickupCoordinatates] = useState(null);
+  const [nearbyDrivers, setNearbyDrivers] = useState([]);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -43,6 +45,10 @@ export const LayoutProvider = ({ children }) => {
         setProfile,
         routeMetrics,
         setRouteMetrics,
+        pickupCoordinates,
+        setPickupCoordinatates,
+        nearbyDrivers,
+        setNearbyDrivers,
       }}
     >
       {children}
