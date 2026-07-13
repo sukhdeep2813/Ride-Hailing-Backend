@@ -6,7 +6,7 @@ const generateNearbyDrivers = (centerLat, centerLng, count) => {
     const lngOffset = (Math.random() - 0.5) * 0.015;
 
     drivers.push({
-      id: `mock-driver-${i}`,
+      id: `${i}`,
       lat: centerLat + latOffset,
       lng: centerLng + lngOffset,
       heading: Math.floor(Math.random() * 360),
