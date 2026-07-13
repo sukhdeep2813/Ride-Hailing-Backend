@@ -27,7 +27,13 @@ const MapContainer = () => {
   const nsutCoordinates = { lat: 28.609135, lng: 77.035081 };
 
   //For NavBar
-  const { isSearching, routePoints, mapStyle, isVehicleSelected } = useLayout();
+  const {
+    isSearching,
+    routePoints,
+    mapStyle,
+    isVehicleSelected,
+    // nearbyDrivers,
+  } = useLayout();
 
   const { profile } = useLayout();
   const [showDropdown, setShowDropdown] = useState(false);
@@ -126,13 +132,54 @@ const MapContainer = () => {
             strictBounds: true,
           }}
         >
-        
           {isSearching && routePoints.pickup && routePoints.destination && (
             <MapDirectionsRenderer
               pickup={routePoints.pickup}
               destination={routePoints.destination}
             />
           )}
+
+          {/* {nearbyDrivers?.map((driver) => {
+            const cleanType = driver.vehicleType?.replace(/\d+$/, "");
+            const carPngUrl = cleanType
+              ? `/vehicles/${cleanType}.png`
+              : "/car.png";
+
+            return (
+              <AdvancedMarker
+                key={driver.id}
+                position={{ lat: driver.lat, lng: driver.lng }}
+                title={`Nearby ${driver.vehicleType}`}
+              >
+                <div
+                  style={{
+                    transform: `rotate(${driver.heading}deg)`,
+                    transition:
+                      "transform 0.3s ease, top 0.3s ease, left 0.3s ease",
+                    width: "36px",
+                    height: "36px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <img
+                    src={carPngUrl}
+                    alt="driver-vehicle"
+                    onError={(e) => {
+                      e.target.src = "/car.png";
+                    }}
+                    style={{
+                      width: "32px",
+                      height: "32px",
+                      objectFit: "contain",
+                      filter: "drop-shadow(0px 3px 6px rgba(0,0,0,0.4))",
+                    }}
+                  />
+                </div>
+              </AdvancedMarker>
+            );
+          })} */}
           <AdvancedMarker position={nsutCoordinates} title={"NSUT Campus"} />
 
           {/*Fixed Map Controller */}
