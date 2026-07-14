@@ -168,7 +168,7 @@ const RideBookingWidget = () => {
         const drivers = generateNearbyDrivers(
           pickupCoordinates.lat,
           pickupCoordinates.lng,
-          8,
+          6,
         );
 
         setNearbyDrivers(drivers);
