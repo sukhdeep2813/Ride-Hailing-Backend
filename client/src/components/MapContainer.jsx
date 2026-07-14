@@ -4,7 +4,7 @@ import { Bell, User, Menu, LogOut } from "lucide-react";
 import { useLayout } from "../context/LayoutContext";
 
 import MapDirectionsRenderer from "./MapDirectionsRenderer";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 
 import { useNavigate } from "react-router-dom";
 
@@ -32,11 +32,57 @@ const MapContainer = () => {
     routePoints,
     mapStyle,
     isVehicleSelected,
-    // nearbyDrivers,
+    nearbyDrivers,
+    profile,
   } = useLayout();
 
-  const { profile } = useLayout();
   const [showDropdown, setShowDropdown] = useState(false);
+
+  const memoizedDrivers = useMemo(() => {
+    if (!nearbyDrivers || nearbyDrivers.length === 0) return null;
+
+    return nearbyDrivers.map((driver) => {
+      const cleanType = driver.vehicleType?.replace(/\d+$/, "");
+      const carPngUrl = cleanType ? `/vehicles/${cleanType}.png` : "/car.png";
+
+      const rotationStyle = {
+        transform: `rotate(${driver.heading || 0}deg)`,
+        transition: "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+        width: "32px",
+        height: "32px",
+        objectFit: "contain",
+        filter: "drop-shadow(0px 3px 6px rgba(0,0,0,0.4))",
+      };
+
+      return (
+        <AdvancedMarker
+          key={driver.id}
+          position={{ lat: driver.lat, lng: driver.lng }}
+          title={`Nearby ${driver.vehicleType}`}
+        >
+          <div
+            style={{
+              width: "36px",
+              height: "36px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <img
+              src={carPngUrl}
+              alt="driver-vehicle"
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = "/car.png";
+              }}
+              style={rotationStyle}
+            />
+          </div>
+        </AdvancedMarker>
+      );
+    });
+  }, [nearbyDrivers]);
 
   //For LogOut
 
@@ -139,47 +185,8 @@ const MapContainer = () => {
             />
           )}
 
-          {/* {nearbyDrivers?.map((driver) => {
-            const cleanType = driver.vehicleType?.replace(/\d+$/, "");
-            const carPngUrl = cleanType
-              ? `/vehicles/${cleanType}.png`
-              : "/car.png";
+          {memoizedDrivers}
 
-            return (
-              <AdvancedMarker
-                key={driver.id}
-                position={{ lat: driver.lat, lng: driver.lng }}
-                title={`Nearby ${driver.vehicleType}`}
-              >
-                <div
-                  style={{
-                    transform: `rotate(${driver.heading}deg)`,
-                    transition:
-                      "transform 0.3s ease, top 0.3s ease, left 0.3s ease",
-                    width: "36px",
-                    height: "36px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <img
-                    src={carPngUrl}
-                    alt="driver-vehicle"
-                    onError={(e) => {
-                      e.target.src = "/car.png";
-                    }}
-                    style={{
-                      width: "32px",
-                      height: "32px",
-                      objectFit: "contain",
-                      filter: "drop-shadow(0px 3px 6px rgba(0,0,0,0.4))",
-                    }}
-                  />
-                </div>
-              </AdvancedMarker>
-            );
-          })} */}
           <AdvancedMarker position={nsutCoordinates} title={"NSUT Campus"} />
 
           {/*Fixed Map Controller */}
