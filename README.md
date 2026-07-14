@@ -816,6 +816,6 @@ This project is licensed under the **ISC License**.
 
 **Status:** 🚧 Under Active Development | Last Updated: July 2026
 
-For questions or support, please open a GitHub Issue.
+For questions, feedback, or suggestions, please open a GitHub Issue.
 
 **Happy coding! 🚀**
