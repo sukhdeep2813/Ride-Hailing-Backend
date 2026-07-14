@@ -1,30 +1,32 @@
 # 🚗 Ride-Hailing Backend
 
-A full-stack ride-hailing application (in development) enabling riders to book trips and drivers to accept them. Built with **Node.js + Express** backend and **React + Vite** frontend, featuring real-time mapping, fare calculation, and Google OAuth authentication.
+A full-stack ride-hailing application (in development) enabling riders to book trips and drivers to accept them. Built with **Node.js + Express** backend and **React + Vite** frontend, featuring real-time Google Maps integration and role-based access control.
 
 ⚠️ **Status:** Project is currently under active development. Some features are incomplete or still being implemented.
 
 ## 📋 Table of Contents
 
 - [Overview](#-overview)
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
-- [Getting Started](#getting-started)
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Project Structure](#-project-structure)
+- [Getting Started](#-getting-started)
   - [Prerequisites](#prerequisites)
   - [Backend Setup](#backend-setup)
   - [Frontend Setup](#frontend-setup)
   - [Database Setup](#database-setup)
-- [Running the Application](#running-the-application)
-- [Project Architecture](#project-architecture)
-- [API Endpoints](#api-endpoints)
-- [Database Schema](#database-schema)
-- [Component Overview](#component-overview)
-- [Authentication Flow](#authentication-flow)
-- [Development Status](#development-status)
-- [Known Issues & TODOs](#known-issues--todos)
-- [Contributing](#contributing)
-- [License](#license)
+- [Running the Application](#️-running-the-application)
+- [Project Architecture](#️-project-architecture)
+- [API Endpoints](#-api-endpoints)
+- [Database Schema](#️-database-schema)
+- [Component Overview](#-component-overview)
+- [Authentication Flow](#-authentication-flow)
+- [Development Status](#-development-status)
+- [Known Issues & TODOs](#-known-issues--todos)
+- [Contributing](#-contributing)
+- [License](#-license)
+- [Resources](#-resources)
+- [Next Steps](#-next-steps)
 
 ---
 
