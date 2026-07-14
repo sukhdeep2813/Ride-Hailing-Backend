@@ -1,3 +1,12 @@
+const vehicleTypes = [
+  "BoltBike",
+  "BoltGo",
+  "BoltMini",
+  "BoltPlus",
+  "BoltSedan",
+  "BoltSuite",
+];
+
 const generateNearbyDrivers = (centerLat, centerLng, count) => {
   const drivers = [];
 
@@ -10,6 +19,8 @@ const generateNearbyDrivers = (centerLat, centerLng, count) => {
       lat: centerLat + latOffset,
       lng: centerLng + lngOffset,
       heading: Math.floor(Math.random() * 360),
+      vehicleType:
+        vehicleTypes[Math.floor(Math.random() * vehicleTypes.length)],
     });
   }
   return drivers;
