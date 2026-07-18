@@ -21,7 +21,7 @@ export const driverStore = {
     const list = [];
 
     for (const [id, data] of activeDriver.entries()) {
-      if (curr_time - data.lastPing) {
+      if (curr_time - data.lastPing > STALE_TIMEOUT) {
         activeDriver.delete(id);
         continue;
       }
