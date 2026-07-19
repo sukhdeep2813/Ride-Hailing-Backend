@@ -1,10 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { MapPin, Car, Check, RefreshCw, AlertCircle } from "lucide-react";
 import MapDashboard from "../pages/MapDashboard";
 import { api } from "../api/api";
 import toast from "react-hot-toast";
 
+import { useSocket } from "../context/SocketContext";
+import { useLayout } from "../context/LayoutContext";
+
 const DriverDashboard = () => {
+  const { socket } = useSocket();
+  const { profile } = useLayout();
+
+  const [currentLocation, setCurrentLocation] = useState({
+    lat: 28.6088,
+    lng: 77.0348,
+    heading: 0,
+  });
+ 
   //rides
   const [availableRides, setAvailableRides] = useState([]);
   // loading
@@ -60,6 +72,52 @@ const DriverDashboard = () => {
         
     */
   }
+
+  const locationRef = useRef(currentLocation);
+  useEffect(() => {
+    locationRef.current = currentLocation;
+  }, [currentLocation]);
+
+  // =========================================================================
+  // 🔥 TELEMETRY PIPELINE: Independent in-memory location stream (Kept intact)
+  // =========================================================================
+  useEffect(() => {
+    if (!navigator.geolocation || !profile) return;
+
+    const watchId = navigator.geolocation.watchPosition(
+      (position) => {
+        setCurrentLocation({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+          heading: position.coords.heading || 0,
+        });
+      },
+      (err) => console.error("GPS hardware access error:", err),
+      { enableHighAccuracy: true, maximumAge: 0 },
+    );
+
+    const telemetryTimer = setInterval(() => {
+      if (socket && socket.connected) {
+        socket.emit("driver_heartbeat", {
+          driverId: profile.id || profile._id,
+          lat: currentLocation.lat,
+          lng: currentLocation.lng,
+          heading: currentLocation.heading,
+          // vehicleType: driverInfo.vehicleType,
+        });
+      }
+    }, 4000);
+
+    return () => {
+      navigator.geolocation.clearWatch(watchId);
+      clearInterval(telemetryTimer);
+    };
+  }, [socket, profile]);
+
+  // =========================================================================
+  // 🔄 INITIAL MOUNT ONLY: No auto-polling interval timers inside
+  // =========================================================================
+
   useEffect(() => {
     fetchJobs();
   }, []);
@@ -80,8 +138,6 @@ const DriverDashboard = () => {
     const actionToast = toast.loading("Accepting job...");
     try {
       const response = await api.acceptRideJob(rideId);
-
-     
 
       toast.dismiss(actionToast);
       if (response && response.success) {
@@ -122,7 +178,11 @@ const DriverDashboard = () => {
             <Car className="text-orange-500" size={28} /> Driver Console
           </h1>
           <p className="text-xs text-zinc-400 mt-1">
-            Accept open matching jobs below to clear logs
+            Status:{" "}
+            <span className="text-green-500 font-semibold">
+              🟢 Streaming Telemetry
+            </span>{" "}
+            • Radius matching active
           </p>
         </div>
 
