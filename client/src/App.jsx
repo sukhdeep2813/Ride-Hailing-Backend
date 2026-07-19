@@ -12,6 +12,7 @@ import { LayoutProvider, useLayout } from "./context/LayoutContext";
 import { Toaster } from "react-hot-toast";
 import SignUp from "./pages/SignUp";
 import DriverDashboard from "./components/DriverDashboard";
+import { SocketProvider } from "./context/SocketContext";
 
 const DashBoardWrapper = () => {
   const { profile } = useLayout(); // Access the profile from LayoutContext
@@ -49,7 +50,9 @@ function App() {
           element={
             <LayoutProvider>
               {" "}
-              <DashBoard />{" "}
+              <SocketProvider>
+                <DashBoard />
+              </SocketProvider>{" "}
             </LayoutProvider>
           }
         >
