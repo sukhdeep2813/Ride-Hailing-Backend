@@ -41,6 +41,8 @@ const MapContainer = () => {
   const memoizedDrivers = useMemo(() => {
     if (!nearbyDrivers || nearbyDrivers.length === 0) return null;
 
+  
+
     return nearbyDrivers.map((driver) => {
       const cleanType = driver.vehicleType?.replace(/\d+$/, "");
       const carPngUrl = cleanType ? `/vehicles/${cleanType}.png` : "/car.png";
