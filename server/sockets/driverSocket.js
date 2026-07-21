@@ -4,7 +4,7 @@ export const initDriverSockets = (io) => {
   io.on("connection", (socket) => {
     console.log(`🔌 WebSockets Connected: ${socket.id}`);
 
-    socket.on("driver_heartbeat", (data) => {
+    socket.on("driver_heartbeat", (data) => {//express recives packet  over tcp connection and socket.io extracts the payloadm
       const { driverId, lat, lng, heading, vehicleType } = data;
 
       if (!driverId || !lat || !lng) return;
