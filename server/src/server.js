@@ -9,6 +9,7 @@ import authRoute from "./routes/authRoute.js";
 import fareRoute from "./routes/fareRoute.js";
 import rideRoute from "./routes/rideRoute.js";
 import { initDriverSockets } from "../sockets/driverSocket.js"; // 3. Import your socket handler
+// import driverRoutes from "./routes/driverRoutes.js";
 
 dotenv.config();
 
@@ -55,6 +56,8 @@ app.use("/api/auth", authRoute);
 app.use("/api/fare", fareRoute);
 app.use("/api/rides", rideRoute);
 app.use("/api/create", rideRoute);
+// app.use("/api/drivers", driverRoutes);
+
 
 app.get("/", (req, res) => {
   res.send("Backend is Working");
