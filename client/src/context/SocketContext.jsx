@@ -1,51 +1,55 @@
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
 const SocketContext = createContext(null);
 
+// 🟢 1. SINGLETON PATTERN: Initialize OUTSIDE the React component scope.
+// This guarantees only ONE persistent connection is ever created in the browser.
+const connectionUrl =
+  import.meta.env.VITE_SOCKET_URL || "http://localhost:5000";
+
+const socketInstance = io(connectionUrl, {
+  transports: ["websocket"], // Direct WebSocket transport (prevents HTTP polling spam)
+  autoConnect: true,
+  reconnection: true,
+  reconnectionAttempts: 5,
+  reconnectionDelay: 1000,
+});
+
 export const SocketProvider = ({ children }) => {
-  const [socket, setSocket] = useState(null);
-  const socketRef = useRef(null);
-  //to mount only once when first moubnt to the DOM
+  const [isConnected, setIsConnected] = useState(socketInstance.connected);
 
   useEffect(() => {
-    const connectionUrl =
-      import.meta.env.VITE_SOCKET_URL || "http://localhost:5000";
+    // 🟢 2. Attach event listeners inside the lifecycle sync block
+    const onConnect = () => {
+      console.log(`✅ WebSocket connected! ID: ${socketInstance.id}`);
+      setIsConnected(true);
+    };
 
-    console.log(`🔌 Initializing global WebSocket link: ${connectionUrl}`);
+    const onDisconnect = () => {
+      console.log("🔴 WebSocket disconnected");
+      setIsConnected(false);
+    };
 
-    const newSocket = io(connectionUrl, {
-      transports: [ "websocket"],
-      autoConnect: true,
-      reconnectionAttempts: 5,
-    });
-    socketRef.current = newSocket;
-    setSocket(newSocket);
-
-    newSocket.on("connect", () => {
-      console.log(`✅ WebSocket connected! ID: ${newSocket.id}`);
-    });
-
-    newSocket.on("connect_error", (err) => {
+    const onConnectError = (err) => {
       console.warn("⚠️ WebSocket connection error:", err.message);
-    });
+    };
 
-    //clean when it terminates
+    socketInstance.on("connect", onConnect);
+    socketInstance.on("disconnect", onDisconnect);
+    socketInstance.on("connect_error", onConnectError);
+
+    // 🟢 3. IDEMPOTENT CLEANUP: Detach listeners ONLY. Do NOT call socket.close()!
+    // This stops React 18 Strict Mode from tearing down the network connection during dev re-renders.
     return () => {
-      newSocket.close();
-      console.log("🔌 Global WebSocket connection terminated.");
+      socketInstance.off("connect", onConnect);
+      socketInstance.off("disconnect", onDisconnect);
+      socketInstance.off("connect_error", onConnectError);
     };
   }, []);
 
   return (
-    <SocketContext.Provider value={{ socket }}>
+    <SocketContext.Provider value={{ socket: socketInstance, isConnected }}>
       {children}
     </SocketContext.Provider>
   );
