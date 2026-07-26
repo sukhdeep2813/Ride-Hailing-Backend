@@ -5,6 +5,6 @@ import { getNearbyDrivers } from "../controllers/nearbyController.js";
 
 const router = express.Router();
 
-router.get("/nearby", getNearbyDrivers);
+router.get("/nearby",protectedRoute, getNearbyDrivers);
 
 export default router;
