@@ -15,7 +15,7 @@ export const driverStore = {
     activeDriver.delete(driverId);
   },
 
-  gectLiveDrivers: () => {
+  getLiveDrivers: () => {
     const curr_time = Date.now();
     const STALE_TIMEOUT = 12000;
     const list = [];
