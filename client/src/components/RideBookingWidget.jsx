@@ -111,6 +111,13 @@ const RideBookingWidget = () => {
       const finalDestination =
         PlaceExtractorForPickupAnsDestination(destination);
 
+      console.log(
+        "📍 Sending to Maps Engine -> Pickup:",
+        finalPickup,
+        "| Destination:",
+        finalDestination,
+      );
+
       if (!finalPickup.trim() || !finalDestination.trim()) {
         toast.error("Please enter both pickup and destination locations.", {
           style: {
@@ -124,8 +131,8 @@ const RideBookingWidget = () => {
       }
 
       setRoutePoints({
-        pickup: finalPickup.toLowerCase().trim(),
-        destination: finalDestination.toLowerCase().trim(),
+        pickup: finalPickup.trim(),
+        destination: finalDestination.trim(),
       });
 
       setIsSearching(true); // Mounts the map renderer lines
@@ -228,7 +235,7 @@ const RideBookingWidget = () => {
                     className="px-4 py-3 text-xs font-semibold hover:bg-zinc-50 text-zinc-700 cursor-pointer transition-colors flex items-center gap-2 truncate"
                   >
                     <Navigation size={12} className="text-zinc-400 shrink-0" />
-                    <span className="truncate">{placeText.oh.Ei[0]}</span>
+                    <span className="truncate">{placeText}</span>
                   </li>
                 );
               })}
@@ -275,7 +282,7 @@ const RideBookingWidget = () => {
                     className="px-4 py-3 text-xs font-semibold hover:bg-zinc-50 text-zinc-700 cursor-pointer transition-colors flex items-center gap-2 truncate"
                   >
                     <MapPin size={12} className="text-zinc-400 shrink-0" />
-                    <span className="truncate">{placeText.oh.Ei[0]}</span>
+                    <span className="truncate">{placeText}</span>
                   </li>
                 );
               })}
