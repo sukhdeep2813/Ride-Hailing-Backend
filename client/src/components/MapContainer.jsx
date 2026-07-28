@@ -8,6 +8,8 @@ import { useEffect, useState, useMemo } from "react";
 
 import { useNavigate } from "react-router-dom";
 
+import { useLiveDrivers } from "../hooks/useLiveDrivers.js";
+
 const MapStyleController = ({ style }) => {
   const map = useMap();
 
@@ -27,6 +29,8 @@ const MapContainer = () => {
   const nsutCoordinates = { lat: 28.609135, lng: 77.035081 };
 
   //For NavBar
+  useLiveDrivers();
+
   const {
     isSearching,
     routePoints,
@@ -40,8 +44,6 @@ const MapContainer = () => {
 
   const memoizedDrivers = useMemo(() => {
     if (!nearbyDrivers || nearbyDrivers.length === 0) return null;
-
-  
 
     return nearbyDrivers.map((driver) => {
       const cleanType = driver.vehicleType?.replace(/\d+$/, "");
