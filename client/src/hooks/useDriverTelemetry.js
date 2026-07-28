@@ -6,6 +6,7 @@ export const useDriverTelemetry = (socket, driverId, vehicleType, isOnline) => {
     lng: 77.0348,
     heading: 90,
   });
+  
 
   useEffect(() => {
     if (!socket || !driverId || !isOnline) return;
