@@ -111,12 +111,6 @@ const RideBookingWidget = () => {
       const finalDestination =
         PlaceExtractorForPickupAnsDestination(destination);
 
-      console.log(
-        "📍 Sending to Maps Engine -> Pickup:",
-        finalPickup,
-        "| Destination:",
-        finalDestination,
-      );
 
       if (!finalPickup.trim() || !finalDestination.trim()) {
         toast.error("Please enter both pickup and destination locations.", {
