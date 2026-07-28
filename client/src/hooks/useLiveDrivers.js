@@ -12,13 +12,13 @@ export const useLiveDrivers = () => {
 
   useEffect(() => {
     // Listen for the exact event your Express backend is emitting
-    socket.on("drivers:nearbyUpdate", (liveDrivers) => {
+    socket.on("driver_heartbeat", (liveDrivers) => {
       // Overwrites your context state, triggering MapContainer's useMemo
       setNearbyDrivers(liveDrivers);
     });
 
     return () => {
-      socket.off("drivers:nearbyUpdate");
+      socket.off("driver_heartbeat");
     };
   }, [setNearbyDrivers]);
 
