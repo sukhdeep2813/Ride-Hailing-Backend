@@ -26,7 +26,7 @@ export const getNearbyDrivers = (req, res) => {
         .json({ message: "Missing pickup location coordinate" });
     }
 
-    // Parse floats FIRST before validating isNaN
+    // Parse floats
     const riderLat = parseFloat(lat);
     const riderLng = parseFloat(lng);
     const searchRadius = parseFloat(radiusKm);
