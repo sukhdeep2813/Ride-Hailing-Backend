@@ -24,6 +24,8 @@ model User {
   rating        Float    @default(5.0)
   
   // Relational fields (for later)
+
+  
   ridesAsRider  Ride[]   @relation("RiderRides")
   ridesAsDriver Ride[]   @relation("DriverRides")
 
