@@ -87,5 +87,9 @@ export const api = {
 
   acceptRideJob: (rideId) =>
     fetchWithAuth(`/rides/accept/${rideId}`, { method: "PATCH" }),
-  getNearbyDrivers: (lat, lng, radiusKm) => fetchWithAuth(`/drivers/nearby?lat=${lat}&lng=${lng}&radiusKm=${radiusKm}`, {method: "GET"}),
+  getNearbyDrivers: (lat, lng, radiusKm) =>
+    fetchWithAuth(
+      `/drivers/nearby?lat=${lat}&lng=${lng}&radiusKm=${radiusKm}`,
+      { method: "GET" },
+    ),
 };
